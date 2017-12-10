@@ -156,7 +156,23 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="ChessBoard.cpp" />
+    <ClCompile Include="ChessPiece.cpp" />
+    <ClCompile Include="Engine3D.cpp" />
+    <ClCompile Include="Game.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="Point3D.cpp" />
+    <ClCompile Include="Rectangle3D.cpp" />
+    <ClCompile Include="RGB.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="ChessBoard.h" />
+    <ClInclude Include="ChessPiece.h" />
+    <ClInclude Include="Engine3D.h" />
+    <ClInclude Include="Game.h" />
+    <ClInclude Include="Point3D.h" />
+    <ClInclude Include="Rectangle3D.h" />
+    <ClInclude Include="RGB.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
