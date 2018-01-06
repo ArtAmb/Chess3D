@@ -1,5 +1,5 @@
 #include "Rectangle3D.h"
-
+#include <glut.h>
 Rectangle3D::Rectangle3D()
 {
 }
@@ -9,13 +9,71 @@ Rectangle3D::~Rectangle3D()
 {
 }
 
-Rectangle3D::Rectangle3D(Point3D point, float length, float width, float heigth) {
+Rectangle3D::Rectangle3D(Point3D point, float length, float width, float height) {
 	this->startPoint = point;
 	this->length = length;
 	this->width = width;
 	this->height = height;
 }
 
+
+void Rectangle3D::drawTOP(Colors::RGB color) {
+	glColor3f(color.getR(), color.getG(), color.getB());
+	glVertex3fv(getL1_RT_C_Point().toVector());
+	glVertex3fv(getL1_LT_C_Point().toVector());
+	glVertex3fv(getL1_LB_C_Point().toVector());
+	glVertex3fv(getL1_RB_C_Point().toVector());
+}
+
+void Rectangle3D::drawBOTTOM(Colors::RGB color) {
+	glColor3f(color.getR(), color.getG(), color.getB());
+	glVertex3fv(getL2_RT_C_Point().toVector());
+	glVertex3fv(getL2_LT_C_Point().toVector());
+	glVertex3fv(getL2_LB_C_Point().toVector());
+	glVertex3fv(getL2_RB_C_Point().toVector());
+}
+
+void Rectangle3D::drawFRONT(Colors::RGB color) {
+	glColor3f(color.getR(), color.getG(), color.getB());
+	glVertex3fv(getL1_LT_C_Point().toVector());
+	glVertex3fv(getL1_RT_C_Point().toVector());
+	glVertex3fv(getL2_RT_C_Point().toVector());
+	glVertex3fv(getL2_LT_C_Point().toVector());
+}
+
+void Rectangle3D::drawRIGHT(Colors::RGB color) {
+	glColor3f(color.getR(), color.getG(), color.getB());
+	glVertex3fv(getL2_RT_C_Point().toVector());
+	glVertex3fv(getL1_RT_C_Point().toVector());
+	glVertex3fv(getL1_RB_C_Point().toVector());
+	glVertex3fv(getL2_RB_C_Point().toVector());
+}
+
+void Rectangle3D::drawLEFT(Colors::RGB color) {
+	glColor3f(color.getR(), color.getG(), color.getB());
+	glVertex3fv(getL2_LT_C_Point().toVector());
+	glVertex3fv(getL1_LT_C_Point().toVector());
+	glVertex3fv(getL1_LB_C_Point().toVector());
+	glVertex3fv(getL2_LB_C_Point().toVector());
+}
+
+void Rectangle3D::drawBACK(Colors::RGB color) {
+	glColor3f(color.getR(), color.getG(), color.getB());
+	glVertex3fv(getL1_LB_C_Point().toVector());
+	glVertex3fv(getL1_RB_C_Point().toVector());
+	glVertex3fv(getL2_RB_C_Point().toVector());
+	glVertex3fv(getL2_LB_C_Point().toVector());
+}
+
+
+void Rectangle3D::draw(Colors::RGB color){
+	drawTOP(color);
+	drawBOTTOM(color);
+	drawFRONT(color);
+	drawBACK(color);
+	drawLEFT(color);
+	drawRIGHT(color);
+}
 
 Point3D Rectangle3D::getL1_LB_C_Point() {
 	return startPoint.move(0, 0, 0);

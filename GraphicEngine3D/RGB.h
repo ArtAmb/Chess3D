@@ -5,23 +5,32 @@ namespace Colors {
 	{
 	public:
 		RGB() {};
-		RGB(int r, int g, int b, int a);
+		RGB(float r, float g, float b, float a);
 		virtual ~RGB();
-		int getR() { return r; }
-		int getB() { return b; }
-		int getG() { return g; }
-		int getA() { return a; }
-		int toColorValue();
+		float getR() { return r; }
+		float getB() { return b; }
+		float getG() { return g; }
+		float getA() { return a; }
+		float toColorValue();
 
 	protected:
 
 	private:
-		int r, g, b, a;
+		float r, g, b, a;
 	};
 
-	static RGB RED(255, 0, 0, 1);
-	static RGB GREEN(0, 255, 0, 1);
-	static RGB BLUE(0, 0, 255, 1);
-	static RGB WHITE(255, 255, 255, 1);
+	static RGB RED(1.0f, 0.0f, 0.0f, 1);
+	static RGB GREEN(0.0f, 1.0f, 0.0f, 1);
+	static RGB BLUE(0.0f, 0.0f, 1.0f, 1);
+	static RGB BROWN(0.5f, 0.35f, 0.05f, 1);
+
+	static RGB MAGENTA(1.0f, 0.0f, 1.0f, 1);
+	static RGB ORANGE(1.0f, 0.5f, 0.0f, 1);
+	static RGB YELLOW(1.0f, 1.0f, 0.0f, 1);
+
+	static RGB GRAY(0.5f, 0.5f, 0.5f, 1);
+	static RGB WHITE(1.0f, 1.0f, 1.0f, 1);
+	static RGB BLACK(0.0f, 0.0f, 0.0f, 1);
+	
 }
 

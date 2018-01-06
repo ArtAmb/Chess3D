@@ -7,6 +7,8 @@ public:
 	static void keyboardFunc(unsigned char key, int x, int y);
 	static void displayFunc();
 	static void reshapeFunc(int w, int h);
+	static void timerFunc(int value);
+
 	Game();
 	~Game();
 };

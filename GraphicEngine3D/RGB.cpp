@@ -1,6 +1,6 @@
 #include "RGB.h"
 
-Colors::RGB::RGB(int r, int b, int g, int a)
+Colors::RGB::RGB(float r, float b, float g, float a)
 {
     this->r = r;
     this->g = g;
@@ -8,7 +8,7 @@ Colors::RGB::RGB(int r, int b, int g, int a)
 	this->a = a;
 }
 
-int Colors::RGB::toColorValue(){
+float Colors::RGB::toColorValue(){
 	return 0;
 }
 
