@@ -13,10 +13,13 @@ public:
 	void clean(Colors::RGB color);
 
 	void setKeyboard(void(*keyboard)(unsigned char, int, int));
+	void setSpecialKeyboard(void(*keyboard)(int, int, int));
+	void setSpecialUpKeyboard(void(*keyboard)(int, int, int));
 	void setDisplay(void (*dispFunc)(void));
 	void setReshape(void(*reshape)(int, int));
 	void setTimer(int ms, void(*update)(int), int value);
-
+	void setMouseButtons(void(*mouseButton)(int, int, int, int));
+	void setMouseMotion(void(*moveMotion)(int, int));
 	void startMainLoop();
 
 	Engine3D(int argc, char**argv);

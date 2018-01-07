@@ -46,6 +46,8 @@ public:
 	ChessBoard(Point3D, float cubeL, float cubeW, float cubeH);
 	~ChessBoard();
 
+	Point3D getStartPoint() { return startPoint; }
+
 	void setCubeSizes(float l, float w, float h);
 	void setBoardSizes(float l, float w, float h);
 

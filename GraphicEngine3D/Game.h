@@ -5,9 +5,13 @@ class Game
 	static Engine3D* engine;
 public:
 	static void keyboardFunc(unsigned char key, int x, int y);
+	static void specialKeyboard(int key, int x, int y);
 	static void displayFunc();
 	static void reshapeFunc(int w, int h);
 	static void timerFunc(int value);
+	static void mouseButton(int button, int state, int x, int y);
+	static void mouseMove(int x, int y);
+	static void releaseKey(int key, int x, int y);
 
 	Game();
 	~Game();

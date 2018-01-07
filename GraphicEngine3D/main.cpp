@@ -9,7 +9,11 @@ int main(int argc, char** argv)
 
 	engine->setDisplay(Game::displayFunc);
 	engine->setKeyboard(Game::keyboardFunc);
+	engine->setSpecialKeyboard(Game::specialKeyboard);
+	engine->setSpecialUpKeyboard(Game::releaseKey);
 	engine->setReshape(Game::reshapeFunc);
+	engine->setMouseButtons(Game::mouseButton);
+	engine->setMouseMotion(Game::mouseMove);
 	engine->setTimer(25, Game::timerFunc, 0);
 
 	engine->startMainLoop();
