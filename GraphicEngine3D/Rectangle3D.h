@@ -5,7 +5,7 @@ class Rectangle3D
 {
 	Point3D startPoint;
 	float length, width, height;
-
+	Colors::RGB* topFieldColor = NULL;
 	void drawTOP(Colors::RGB color);
 	void drawBOTTOM(Colors::RGB color);
 	void drawFRONT(Colors::RGB color);
@@ -30,6 +30,12 @@ public:
 	~Rectangle3D();
 		
 	void draw(Colors::RGB color);
+	void changeTopFieldColor(Colors::RGB color) {
+		this->topFieldColor = &color;
+	}
+	void resetTopFieldColor() {
+		this->topFieldColor = NULL;
+	}
 
 	Point3D getL1_LB_C_Point();
 	Point3D getL1_LT_C_Point();
@@ -41,5 +47,10 @@ public:
 	Point3D getL2_LT_C_Point();
 	Point3D getL2_RB_C_Point();
 	Point3D getL2_RT_C_Point();
+
+
+	void draw(Colors::RGB color, Colors::RGB topColor);
+	void translateToTopCenterOfTopField(Point3D currentPosition);
+
 };
 

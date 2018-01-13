@@ -1,18 +1,20 @@
 #pragma once
+#include "ChessPiece.h"
 #include "Rectangle3D.h"
 #include <iostream>
-
-enum  CHESS_COLUMN { C_A = 0, C_B, C_C, C_D, C_E, C_F, C_G, C_H };
-enum  CHESS_ROW { R_1 = 0, R_2, R_3, R_4, R_5, R_6, R_7, R_8 };
+#include "ChessEnums.h"
 
 class ChessBoardField {
 private:
 	CHESS_ROW x;
 	CHESS_COLUMN y;
-
+	ChessPiece* piece;
 	Rectangle3D boardCube;
+	bool isHighlighted = false;
 public:
+	~ChessBoardField() {
 
+	}
 	Rectangle3D getCube() { return boardCube; }
 	ChessBoardField() {}
 
@@ -26,10 +28,25 @@ public:
 		return x;
 	}
 
+	void highlight() {
+		isHighlighted = true;
+	}
+
+	void stopHighliting() {
+		isHighlighted = false;
+	}
 
 	int getColumn() {
 		return y;
 	}
+
+	void translateToFieldCenter(Point3D point) {
+		boardCube.translateToTopCenterOfTopField(point);
+		highlight();
+	}
+
+	void draw(Colors::RGB color);
+
 };
 
 class ChessBoard {
@@ -48,6 +65,8 @@ public:
 
 	Point3D getStartPoint() { return startPoint; }
 
+
+	ChessBoardField* getField(CHESS_COLUMN c, CHESS_ROW r);
 	void setCubeSizes(float l, float w, float h);
 	void setBoardSizes(float l, float w, float h);
 

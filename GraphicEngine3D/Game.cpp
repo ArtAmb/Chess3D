@@ -3,12 +3,15 @@
 #include "Point3D.h"
 #include "Rectangle3D.h"
 #include "ChessBoard.h"
+#include <vector>
 #include <glut.h>
+#include "AssimpLoader.h"
+#include "ChessEnums.h"
 Engine3D* Game::engine;
 
 Game::Game()
 {
-	engine = Engine3DLoader::getEngine();
+	engine = Engine3DLoader::getEngine();	
 }
 
 
@@ -19,7 +22,7 @@ Game::~Game()
 float _angle = 0.0;
 float _cameraangle = 30.0;
 // XZ position of the camera
-float x = 0.0f, z = 5.0f;
+float x = 7.5f, y = 7.0f, z = 30.0f;
 void Game::timerFunc(int value)
 {
 	_angle += 2.0f;
@@ -32,9 +35,20 @@ void Game::timerFunc(int value)
 }
 
 //Point3D cameraPosition(0, 0, 3.0);
-Point3D cameraPosition(x, 1.0f, z);
+float veticalDelta = 0;
+Point3D cameraPosition(x, y, z);//(727.987000, -0.000885009998, -1539.59998);//
 void Game::keyboardFunc(unsigned char key, int x, int y) {
 	switch (key) {
+	case 'w':
+		veticalDelta = 0.5;
+		//cameraPosition.moveMyself(0,0,0.01f);
+	 break;
+	case 's':
+		veticalDelta = -0.5;
+		//cameraPosition.moveMyself(0, 0, 0.01f);
+		break;
+
+
 	case 27:
 		exit(0);
 	}
@@ -85,14 +99,21 @@ void Game::mouseButton(int button, int state, int x, int y) {
 	}
 }
 
-void Game::releaseKey(int key, int x, int y) {
+void Game::releaseKey(unsigned char key, int x, int y) {
+
+	switch (key) {
+	case 'w':
+	case 's': veticalDelta = 0; break;
+	}
+}
+
+void Game::releaseSpecialKey(int key, int x, int y) {
 
 	switch (key) {
 	case GLUT_KEY_UP:
 	case GLUT_KEY_DOWN: deltaMove = 0; break;
 	}
 }
-
 
 void Game::specialKeyboard(int key, int x, int y) {
 	switch (key)
@@ -129,8 +150,8 @@ void displayText(float x, float y, Colors::RGB color, std::string string) {
 	}
 }
 //Rectangle3D board(Point3D(50, 50, 50), 80, 40, 20);
-ChessBoard chessBoard(Point3D(-1.0f, 1.0f, -1.0f), 0.2, 0.2, 0.2);
-Point3D placeCameraLookingAt(x, 1.0f, z);
+ChessBoard chessBoard(Point3D(0.0f, 0.0f, 0.0f), 1, 1, 0.2);
+Point3D placeCameraLookingAt(x, y, z);//(727.987000, -0.000885009998, -1539.59998);
 Point3D cameraVerticalOffset(0.0, 1.0f, 0.0);
 
 
@@ -148,52 +169,52 @@ void Game::displayFunc() {
 	glMatrixMode(GL_MODELVIEW);
 	glLoadIdentity();
 
+
 	if (deltaMove)
 		computePos(deltaMove);
+	if (veticalDelta)
+		placeCameraLookingAt.moveMyself(0, veticalDelta * 0.1, 0);
+
 	lookAt(cameraPosition, placeCameraLookingAt.move(lx, ly, lz), cameraVerticalOffset);
-	//gluLookAt(x, 1.0f, z,
-	//	x + lx, 1.0f, z + lz,
-	//	0.0f, 1.0f, 0.0f);
 
 	//Engine3D* e = Engine3DLoader::getEngine();
 	//e->glBegin(GL_LINES)->glVertex3f(0, 0, -5)->glVertex3f(2, 2, -5)->glEnd();
 	displayText(-2, 0, Colors::RED, "cameraPosition: " + cameraPosition.toString());
 	displayText(-2, 0.1, Colors::RED, "placeCameraLookingAt: " + placeCameraLookingAt.toString());
 	displayText(-2, 0.2, Colors::RED, "cameraVerticalOffset: " + cameraVerticalOffset.toString());
-	//displayText(-2, 0.0, Colors::RED, "xOrgin: " + xOrigin);
-	//displayText(-2, 0.1, Colors::RED, "yOrgin: " + yOrigin);
 	//glRotatef(_cameraangle, 0.0f, 1.0f, 0.0f);
-	glTranslatef(0.0f, 0.0f, -10.0f);
-
 	glPushMatrix();
-	glTranslatef(5.0f, -1.0f, 0.0f);
-	glScalef(2.0f, 2.0f, 2.0f);
-	//glRotatef(_angle, 1.0f, 3.0f, 2.0f); //rotating object continuously by 2 degree
-
+    glScalef(2.0f, 2.0f, 2.0f);
+	glRotatef(90, 1.0f, 0, 0);
 	glBegin(GL_QUADS);
 	chessBoard.draw();
 	glEnd();
-
+	
+	/*glBegin(GL_POINT);
+	glColor3f(Colors::BLUE.getR(), Colors::BLUE.getG(), Colors::BLUE.getB());
+	chessBoard.getField(C_E, R_6)->translateToFieldCenter(Point3D(0,0,0));
+	//glVertex3fv(chessBoard.getField(C_E, R_6)->getCube().getStartPoint().toVector());
+	glEnd(); */
+	glColor3f(Colors::RED.getR(), Colors::RED.getG(), Colors::RED.getB());
+	//glTranslatef(5.0f, -1.0f, 0.0f);
+	chessBoard.getField(C_E, R_6)->translateToFieldCenter(Point3D(0, 0, 0));
+	glScalef(0.25f, 0.25f, 0.25f);
+	glutSolidTorus(0.2f, 1.0f,100,200);
+	//Engine3DLoader::getEngine()->drawLoadedModels();
+	
 	glPopMatrix();
+
 	//glFlush();
 	glutSwapBuffers();
 }
 void Game::reshapeFunc(int width, int height) {
 
-	/*
-	if (width > height)
-		glViewport((width - height) / 2, 0, height, height);
-	else
-	if (width < height)
-		glViewport(0, (height - width) / 2, width, width);
-		*/
 	glViewport(0, 0, width, height);
 	glMatrixMode(GL_PROJECTION);
 	glLoadIdentity();
 	gluPerspective(45.0, (double)width / (double)height, 1.0, 200.0);
-	//glOrtho(0.0, width, 0.0, height, -100, 100);
 	glMatrixMode(GL_MODELVIEW);
-	//glLoadIdentity();
+
 
 }
 

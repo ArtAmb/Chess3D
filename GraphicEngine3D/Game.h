@@ -11,7 +11,8 @@ public:
 	static void timerFunc(int value);
 	static void mouseButton(int button, int state, int x, int y);
 	static void mouseMove(int x, int y);
-	static void releaseKey(int key, int x, int y);
+	static void releaseKey(unsigned char key, int x, int y);
+	static void releaseSpecialKey(int key, int x, int y);
 
 	Game();
 	~Game();

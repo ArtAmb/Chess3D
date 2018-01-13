@@ -1,6 +1,6 @@
 #pragma once
-#include "ChessBoard.h"
-
+#include "ChessEnums.h"
+class ChessBoardField;
 class ChessPiece
 {
 	CHESS_ROW row;

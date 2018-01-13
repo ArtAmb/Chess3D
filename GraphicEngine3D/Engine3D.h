@@ -1,13 +1,26 @@
 #pragma once
+#include <iostream>
 #include "RGB.h"
+#pragma comment(lib, "assimp.lib")
+
+#include "AssimpLoader.h"
+
+#include <assimp/Importer.hpp>      // C++ importer interface
+#include <assimp/scene.h>           // Output data structure
+#include <assimp/postprocess.h>     // Post processing fla
+
 #include <glut.h>
+
 
 class Engine3D
 {
 	void createWindow();
 	void initRendering();
+	AssimpLoader* loader;
 
 public:
+	void loadModels();
+	void drawLoadedModels();
 	void init(int argc, char**argv);
 	void unload();
 	void clean(Colors::RGB color);
@@ -15,6 +28,7 @@ public:
 	void setKeyboard(void(*keyboard)(unsigned char, int, int));
 	void setSpecialKeyboard(void(*keyboard)(int, int, int));
 	void setSpecialUpKeyboard(void(*keyboard)(int, int, int));
+	void setKeyboardUp(void(*keyboard)(unsigned char, int, int));
 	void setDisplay(void (*dispFunc)(void));
 	void setReshape(void(*reshape)(int, int));
 	void setTimer(int ms, void(*update)(int), int value);

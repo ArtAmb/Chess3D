@@ -21,6 +21,14 @@ public:
 	Point3D move(float off_x, float off_y, float off_z);
 	void moveMyself(float off_x, float off_y, float off_z);
 
+	Point3D getMiddlePointFromMeTo(Point3D point) {
+		return Point3D(average(x, point.getX()), average(y, point.getY()), average(z, point.getZ()));
+	}
+
+	float average(float a, float b) {
+		return (a + b) / 2;
+	}
+
 	std::string toString();
 };
 

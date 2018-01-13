@@ -1,4 +1,5 @@
 #include "Engine3D.h"
+#include <vector>
 Engine3D* Engine3DLoader::engine = nullptr;
 
 Engine3D::Engine3D(int argc, char**argv)
@@ -8,7 +9,7 @@ Engine3D::Engine3D(int argc, char**argv)
 
 Engine3D::~Engine3D()
 {
-
+	delete loader;
 }
 
 void Engine3D::createWindow() {
@@ -16,7 +17,7 @@ void Engine3D::createWindow() {
 	glutInitWindowSize(600, 600);
 
 	glutCreateWindow("Chess 3D");
-	initRendering();
+	//initRendering();
 }
 
 void Engine3D::init(int argc, char**argv) {
@@ -25,14 +26,21 @@ void Engine3D::init(int argc, char**argv) {
 	initRendering();
 }
 
+void Engine3D::drawLoadedModels() {
+	loader->RenderModel();
+}
+
 void Engine3D::unload() {
 
 }
+std::vector<int> iMaterialIndices;
 
 void Engine3D::initRendering() {
 	glEnable(GL_DEPTH_TEST);
 	glutIgnoreKeyRepeat(1);
-	//glClearColor(0, 0, 0, 0);
+	//loader = new AssimpLoader();
+	//loader->LoadModelFromFile("E:/MVS2015Workspace/GraphicEngine3D/woodenChess3DModels/Chess/chess.obj");
+	
 }
 
 void Engine3D::clean(Colors::RGB color) {
@@ -62,6 +70,9 @@ void Engine3D::startMainLoop() {
 }
 void Engine3D::setSpecialUpKeyboard(void(*keyboard)(int, int, int)) {
 	glutSpecialUpFunc(keyboard);
+}
+void Engine3D::setKeyboardUp(void(*keyboard)(unsigned char , int, int)) {
+	glutKeyboardUpFunc(keyboard);
 }
 void Engine3D::setMouseButtons(void(*mouseButton)(int, int, int, int)) {
 	glutMouseFunc(mouseButton);

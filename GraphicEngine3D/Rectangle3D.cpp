@@ -1,3 +1,4 @@
+#include <iostream>
 #include "Rectangle3D.h"
 #include <glut.h>
 Rectangle3D::Rectangle3D()
@@ -7,6 +8,10 @@ Rectangle3D::Rectangle3D()
 
 Rectangle3D::~Rectangle3D()
 {
+	if (startPoint.getX() == 0 && startPoint.getY() == 0 && startPoint.getZ() == 0) {
+		std::cout << startPoint.toString() << std::endl;
+		std::cout << topFieldColor << std::endl;
+	}
 }
 
 Rectangle3D::Rectangle3D(Point3D point, float length, float width, float height) {
@@ -75,6 +80,15 @@ void Rectangle3D::draw(Colors::RGB color){
 	drawRIGHT(color);
 }
 
+void Rectangle3D::draw(Colors::RGB color, Colors::RGB topColor) {
+	drawTOP(topColor);
+	drawBOTTOM(color);
+	drawFRONT(color);
+	drawBACK(color);
+	drawLEFT(color);
+	drawRIGHT(color);
+}
+
 Point3D Rectangle3D::getL1_LB_C_Point() {
 	return startPoint.move(0, 0, 0);
 }
@@ -100,4 +114,21 @@ Point3D Rectangle3D::getL2_RB_C_Point() {
 }
 Point3D Rectangle3D::getL2_RT_C_Point() {
 	return startPoint.move(width, length, height);
+}
+
+void Rectangle3D::translateToTopCenterOfTopField(Point3D currentPosition) {
+	/*std::cout << getL1_RT_C_Point().toString() << std::endl;
+	std::cout << getL1_LT_C_Point().toString() << std::endl;
+	std::cout << getL1_LB_C_Point().toString() << std::endl;
+	std::cout << getL1_RB_C_Point().toString() << std::endl;*/
+
+	Point3D verticalPoint = getL1_RT_C_Point().getMiddlePointFromMeTo(getL1_LT_C_Point());
+	Point3D horizontalPoint = getL1_LT_C_Point().getMiddlePointFromMeTo(getL1_LB_C_Point());
+
+	//glVertex3fv(verticalPoint.toVector());
+	//glVertex3fv(horizontalPoint.toVector());
+	Point3D newPossition(verticalPoint.getX(), horizontalPoint.getY(), getL1_LT_C_Point().getZ());
+	
+	glTranslatef(-(currentPosition.getX() - newPossition.getX()), -(currentPosition.getY() - newPossition.getY()), -(currentPosition.getZ() - newPossition.getZ()));
+	//glTranslatef(2, 2, -1);
 }

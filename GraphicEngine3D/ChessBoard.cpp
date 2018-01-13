@@ -42,10 +42,21 @@ void ChessBoard::setBoardSizes(float l, float w, float h) {
 	initBoard();
 }
 
+void ChessBoardField::draw(Colors::RGB color) {
+	if (isHighlighted)
+		boardCube.draw(color, Colors::GREEN);
+	else
+		boardCube.draw(color);
+}
+
 void ChessBoard::draw() {
 	for (int i = 0; i < BOARD_SIZE; ++i) {
 		for (int j = 0; j < BOARD_SIZE; ++j) {
-			board[i][j].getCube().draw(i % 2 == j % 2 ? Colors::BLACK: Colors::GRAY);
+			board[i][j].draw(i % 2 == j % 2 ? Colors::BLACK : Colors::GRAY);
 		}
 	}
+}
+
+ChessBoardField*  ChessBoard::getField(CHESS_COLUMN c, CHESS_ROW r) {
+	return &board[c][r];
 }
