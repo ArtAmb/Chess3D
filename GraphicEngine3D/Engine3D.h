@@ -11,7 +11,6 @@
 
 #include <glut.h>
 
-
 class Engine3D
 {
 	void createWindow();
@@ -24,6 +23,9 @@ public:
 	void init(int argc, char**argv);
 	void unload();
 	void clean(Colors::RGB color);
+	void displayText(float x, float y, Colors::RGB color, std::string string);
+	void glColor(Colors::RGB color);
+
 
 	void setKeyboard(void(*keyboard)(unsigned char, int, int));
 	void setSpecialKeyboard(void(*keyboard)(int, int, int));
@@ -32,8 +34,9 @@ public:
 	void setDisplay(void (*dispFunc)(void));
 	void setReshape(void(*reshape)(int, int));
 	void setTimer(int ms, void(*update)(int), int value);
-	void setMouseButtons(void(*mouseButton)(int, int, int, int));
-	void setMouseMotion(void(*moveMotion)(int, int));
+	void mouseButtonsFunc(void(*mouseButton)(int, int, int, int));
+	void mouseMotionFunc(void(*moveMotion)(int, int));
+	
 	void startMainLoop();
 
 	Engine3D(int argc, char**argv);

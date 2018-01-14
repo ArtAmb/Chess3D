@@ -19,6 +19,7 @@ public:
 	~Point3D();
 
 	Point3D move(float off_x, float off_y, float off_z);
+	Point3D move(Point3D offVector);
 	void moveMyself(float off_x, float off_y, float off_z);
 
 	Point3D getMiddlePointFromMeTo(Point3D point) {
@@ -27,6 +28,10 @@ public:
 
 	float average(float a, float b) {
 		return (a + b) / 2;
+	}
+
+	static Point3D getEmptyPoint() {
+		return Point3D(0, 0, 0);
 	}
 
 	std::string toString();

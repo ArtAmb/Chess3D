@@ -1,4 +1,5 @@
 #include <iostream>
+#include "Engine3DAdapter.h"
 #include "Game.h"
 #include "Point3D.h"
 #include "Rectangle3D.h"
@@ -7,22 +8,62 @@
 #include <glut.h>
 #include "AssimpLoader.h"
 #include "ChessEnums.h"
+#include "Pawn.h"
+#include <cmath>
+
+#define M_PI 3.14159265358979323846
 Engine3D* Game::engine;
 
 Game::Game()
 {
-	engine = Engine3DLoader::getEngine();	
+	engine = Engine3DLoader::getEngine();
+	camera = new Camera(Point3D(x, y, z), Point3D(x, y, z), Point3D(0.0, 1.0f, 0.0));
+	chessBoard = new ChessBoard(Point3D(0.0f, 0.0f, 0.0f), 1, 1, 0.2);
+
+	Colors::RGB whiteColor = Colors::RED;
+	Colors::RGB blackColor = Colors::BLUE;
+	pieces[WHITE][0] = new Pawn(R_2, C_A, whiteColor, chessBoard);
+	pieces[WHITE][1] = new Pawn(R_2, C_B, whiteColor, chessBoard);
+	pieces[WHITE][2] = new Pawn(R_2, C_C, whiteColor, chessBoard);
+	pieces[WHITE][3] = new Pawn(R_2, C_D, whiteColor, chessBoard);
+	pieces[WHITE][4] = new Pawn(R_2, C_E, whiteColor, chessBoard);
+	pieces[WHITE][5] = new Pawn(R_2, C_F, whiteColor, chessBoard);
+	pieces[WHITE][6] = new Pawn(R_2, C_G, whiteColor, chessBoard);
+	pieces[WHITE][7] = new Pawn(R_2, C_H, whiteColor, chessBoard);
+
+	pieces[BLACK][0] = new Pawn(R_7, C_A, blackColor, chessBoard);
+	pieces[BLACK][1] = new Pawn(R_7, C_B, blackColor, chessBoard);
+	pieces[BLACK][2] = new Pawn(R_7, C_C, blackColor, chessBoard);
+	pieces[BLACK][3] = new Pawn(R_7, C_D, blackColor, chessBoard);
+	pieces[BLACK][4] = new Pawn(R_7, C_E, blackColor, chessBoard);
+	pieces[BLACK][5] = new Pawn(R_7, C_F, blackColor, chessBoard);
+	pieces[BLACK][6] = new Pawn(R_7, C_G, blackColor, chessBoard);
+	pieces[BLACK][7] = new Pawn(R_7, C_H, blackColor, chessBoard);
+
 }
 
+
+void Game::drawChessPieces() {
+
+	for (int i = 0; i < 2; ++i) {
+		for (int j = 0; j < numberOfAllOnePlayerPieces; ++j) {
+			if (pieces[i][j]->isAlive()) {
+				glPushMatrix();
+				pieces[i][j]->draw();
+				glPopMatrix();
+
+			}
+		}
+	}
+}
 
 Game::~Game()
 {
+	delete camera;
+	delete chessBoard;
 }
 
-float _angle = 0.0;
-float _cameraangle = 30.0;
-// XZ position of the camera
-float x = 7.5f, y = 7.0f, z = 30.0f;
+
 void Game::timerFunc(int value)
 {
 	_angle += 2.0f;
@@ -31,18 +72,16 @@ void Game::timerFunc(int value)
 		_angle -= 360;
 	}
 	glutPostRedisplay();
-	glutTimerFunc(25, timerFunc, 0);
+	Engine3DLoader::getEngine()->setTimer(25, Engine3DAdapter::timerFunc, 0);
 }
 
-//Point3D cameraPosition(0, 0, 3.0);
-float veticalDelta = 0;
-Point3D cameraPosition(x, y, z);//(727.987000, -0.000885009998, -1539.59998);//
+
 void Game::keyboardFunc(unsigned char key, int x, int y) {
 	switch (key) {
 	case 'w':
 		veticalDelta = 0.5;
 		//cameraPosition.moveMyself(0,0,0.01f);
-	 break;
+		break;
 	case 's':
 		veticalDelta = -0.5;
 		//cameraPosition.moveMyself(0, 0, 0.01f);
@@ -53,17 +92,6 @@ void Game::keyboardFunc(unsigned char key, int x, int y) {
 		exit(0);
 	}
 }
-
-// angle of rotation for the camera direction
-float angleX = 0.0f;
-float angleY = 0.0f;
-
-// actual vector representing the camera's direction
-float lx = 0.0f, ly = 0.0f, lz = -1.0f;
-float deltaAngleX = 0.0f;
-float deltaAngleY = 0.0f;
-float deltaMove = 0;
-int xOrigin = -1, yOrigin = -1;
 
 void Game::mouseMove(int x, int y) {
 
@@ -127,40 +155,38 @@ void Game::specialKeyboard(int key, int x, int y) {
 		deltaMove = -0.5f;
 		break;
 	case GLUT_KEY_LEFT:
-		cameraPosition.moveMyself(-0.1f, 0, 0);
+		camera->getPosition()->moveMyself(-0.1f, 0, 0);
 		break;
 	case GLUT_KEY_RIGHT:
-		cameraPosition.moveMyself(0.1f, 0, 0);
+		camera->getPosition()->moveMyself(0.1f, 0, 0);
 		break;
 	}
 }
-void lookAt(Point3D cameraPosition, Point3D placeCameraLookingAt, Point3D cameraVerticalOffset) {
-	//	std::cout << cameraPosition.toString() << ", " << placeCameraLookingAt.toString() << ", " << cameraVerticalOffset.toString() << std::endl;
-	gluLookAt(cameraPosition.getX(), cameraPosition.getY(), cameraPosition.getZ(),
-		placeCameraLookingAt.getX(), placeCameraLookingAt.getY(), placeCameraLookingAt.getZ(),
-		cameraVerticalOffset.getX(), cameraVerticalOffset.getY(), cameraVerticalOffset.getZ());
-
-}
-
-void displayText(float x, float y, Colors::RGB color, std::string string) {
-	glColor3f(color.getR(), color.getG(), color.getB());
-	glRasterPos2f(x, y);
-	for (unsigned int i = 0; i < string.length(); i++) {
-		glutBitmapCharacter(GLUT_BITMAP_TIMES_ROMAN_10, string[i]);
-	}
-}
-//Rectangle3D board(Point3D(50, 50, 50), 80, 40, 20);
-ChessBoard chessBoard(Point3D(0.0f, 0.0f, 0.0f), 1, 1, 0.2);
-Point3D placeCameraLookingAt(x, y, z);//(727.987000, -0.000885009998, -1539.59998);
-Point3D cameraVerticalOffset(0.0, 1.0f, 0.0);
 
 
-void computePos(float deltaMove) {
+
+void Game::computePos(float deltaMove) {
 	float deltaX = deltaMove * lx * 0.1f;
 	float deltaY = deltaMove * ly * 0.1f;
 	float deltaZ = deltaMove * lz * 0.1f;
-	cameraPosition.moveMyself(deltaX, deltaY, deltaZ);
-	placeCameraLookingAt.moveMyself(deltaX, deltaY, deltaZ);
+	camera->getPosition()->moveMyself(deltaX, deltaY, deltaZ);
+	camera->getPlaceCameraLookingAt()->moveMyself(deltaX, deltaY, deltaZ);
+}
+
+void drawChessPhillar(int howMany, float delta) {
+	float radius = delta*howMany;
+	float z = 0.1;
+	for (int i = 0; i < howMany; ++i) {
+		glTranslatef(0, 0, -i*delta);
+		glutSolidTorus(radius, radius, 100, 200);
+		radius -= delta;
+		z += 0.1;
+	}
+}
+
+void Game::settingMatrixProperly() {
+	glScalef(2.0f, 2.0f, 2.0f);
+	glRotatef(90, 1.0f, 0, 0);
 }
 
 void Game::displayFunc() {
@@ -173,36 +199,36 @@ void Game::displayFunc() {
 	if (deltaMove)
 		computePos(deltaMove);
 	if (veticalDelta)
-		placeCameraLookingAt.moveMyself(0, veticalDelta * 0.1, 0);
+		camera->getPlaceCameraLookingAt()->moveMyself(0, veticalDelta * 0.1, 0);
 
-	lookAt(cameraPosition, placeCameraLookingAt.move(lx, ly, lz), cameraVerticalOffset);
+	camera->lookAtWithOffset(Point3D::getEmptyPoint(), Point3D(lx, ly, lz), Point3D::getEmptyPoint());
 
 	//Engine3D* e = Engine3DLoader::getEngine();
 	//e->glBegin(GL_LINES)->glVertex3f(0, 0, -5)->glVertex3f(2, 2, -5)->glEnd();
-	displayText(-2, 0, Colors::RED, "cameraPosition: " + cameraPosition.toString());
-	displayText(-2, 0.1, Colors::RED, "placeCameraLookingAt: " + placeCameraLookingAt.toString());
-	displayText(-2, 0.2, Colors::RED, "cameraVerticalOffset: " + cameraVerticalOffset.toString());
+	
+	//engine->displayText(-2, 0, Colors::RED, "cameraPosition: " + camera->getPosition()->toString());
+	//engine->displayText(-2, 0.1, Colors::RED, "placeCameraLookingAt: " + camera->getPlaceCameraLookingAt()->toString());
+	//engine->displayText(-2, 0.2, Colors::RED, "cameraVerticalOffset: " + camera->getVerticalOffset()->toString());
+	
 	//glRotatef(_cameraangle, 0.0f, 1.0f, 0.0f);
+	settingMatrixProperly();
 	glPushMatrix();
-    glScalef(2.0f, 2.0f, 2.0f);
-	glRotatef(90, 1.0f, 0, 0);
+
 	glBegin(GL_QUADS);
-	chessBoard.draw();
+	chessBoard->draw();
 	glEnd();
-	
-	/*glBegin(GL_POINT);
-	glColor3f(Colors::BLUE.getR(), Colors::BLUE.getG(), Colors::BLUE.getB());
-	chessBoard.getField(C_E, R_6)->translateToFieldCenter(Point3D(0,0,0));
-	//glVertex3fv(chessBoard.getField(C_E, R_6)->getCube().getStartPoint().toVector());
-	glEnd(); */
-	glColor3f(Colors::RED.getR(), Colors::RED.getG(), Colors::RED.getB());
-	//glTranslatef(5.0f, -1.0f, 0.0f);
-	chessBoard.getField(C_E, R_6)->translateToFieldCenter(Point3D(0, 0, 0));
-	glScalef(0.25f, 0.25f, 0.25f);
-	glutSolidTorus(0.2f, 1.0f,100,200);
-	//Engine3DLoader::getEngine()->drawLoadedModels();
-	
 	glPopMatrix();
+
+	drawChessPieces();
+	
+	/*glPushMatrix();
+	settingMatrixProperly();
+	engine->glColor(Colors::RED);
+	//chessBoard->getField(C_E, R_6)->translateToFieldCenter(Point3D(0, 0, 0));
+	//drawPawn();
+	glPopMatrix();*/
+	//Engine3DLoader::getEngine()->drawLoadedModels();
+
 
 	//glFlush();
 	glutSwapBuffers();

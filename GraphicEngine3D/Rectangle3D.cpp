@@ -8,10 +8,6 @@ Rectangle3D::Rectangle3D()
 
 Rectangle3D::~Rectangle3D()
 {
-	if (startPoint.getX() == 0 && startPoint.getY() == 0 && startPoint.getZ() == 0) {
-		std::cout << startPoint.toString() << std::endl;
-		std::cout << topFieldColor << std::endl;
-	}
 }
 
 Rectangle3D::Rectangle3D(Point3D point, float length, float width, float height) {

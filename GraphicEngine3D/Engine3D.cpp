@@ -74,9 +74,24 @@ void Engine3D::setSpecialUpKeyboard(void(*keyboard)(int, int, int)) {
 void Engine3D::setKeyboardUp(void(*keyboard)(unsigned char , int, int)) {
 	glutKeyboardUpFunc(keyboard);
 }
-void Engine3D::setMouseButtons(void(*mouseButton)(int, int, int, int)) {
+void Engine3D::mouseButtonsFunc(void(*mouseButton)(int, int, int, int)) {
 	glutMouseFunc(mouseButton);
 }
-void Engine3D::setMouseMotion(void(*moveMotion)(int, int)) {
+void Engine3D::mouseMotionFunc(void(*moveMotion)(int, int)) {
 	glutMotionFunc(moveMotion);
+}
+
+
+
+void Engine3D::displayText(float x, float y, Colors::RGB color, std::string string) {
+	glColor3f(color.getR(), color.getG(), color.getB());
+	glRasterPos2f(x, y);
+	for (unsigned int i = 0; i < string.length(); i++) {
+		glutBitmapCharacter(GLUT_BITMAP_TIMES_ROMAN_10, string[i]);
+	}
+}
+
+void Engine3D::glColor(Colors::RGB color)
+{
+	glColor3fv(color.toVector());
 }

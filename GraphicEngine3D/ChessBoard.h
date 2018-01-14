@@ -3,12 +3,12 @@
 #include "Rectangle3D.h"
 #include <iostream>
 #include "ChessEnums.h"
-
+#include "glut.h"
 class ChessBoardField {
 private:
 	CHESS_ROW x;
 	CHESS_COLUMN y;
-	ChessPiece* piece;
+	ChessPiece* piece = NULL;
 	Rectangle3D boardCube;
 	bool isHighlighted = false;
 public:

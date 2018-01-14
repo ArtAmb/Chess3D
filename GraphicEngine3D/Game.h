@@ -1,20 +1,48 @@
 #pragma once
 #include "Engine3D.h"
+#include "ChessBoard.h"
+#include "Camera.h"
+
+enum PLAYER_COLOR { WHITE, BLACK };
 class Game
 {
 	static Engine3D* engine;
+	
+	float lx = 0.0f, ly = 0.0f, lz = -1.0f;
+	float deltaAngleX = 0.0f;
+	float deltaAngleY = 0.0f;
+	float deltaMove = 0;
+	int xOrigin = -1, yOrigin = -1;
+	float _angle = 0.0;
+	float _cameraangle = 30.0;
+	// XZ position of the camera
+	float x = 7.5f, y = 7.0f, z = 30.0f;
+		// angle of rotation for the camera direction
+	float angleX = 0.0f;
+	float angleY = 0.0f;
+	const static int numberOfAllOnePlayerPieces = 8;
+	ChessPiece* pieces[2][numberOfAllOnePlayerPieces];
+	void computePos(float deltaMove); 
+
+	float veticalDelta = 0;
+	
+	Camera* camera;
+
+	ChessBoard* chessBoard;
 public:
-	static void keyboardFunc(unsigned char key, int x, int y);
-	static void specialKeyboard(int key, int x, int y);
-	static void displayFunc();
-	static void reshapeFunc(int w, int h);
-	static void timerFunc(int value);
-	static void mouseButton(int button, int state, int x, int y);
-	static void mouseMove(int x, int y);
-	static void releaseKey(unsigned char key, int x, int y);
-	static void releaseSpecialKey(int key, int x, int y);
+	void keyboardFunc(unsigned char key, int x, int y);
+	void specialKeyboard(int key, int x, int y);
+	void settingMatrixProperly();
+	void displayFunc();
+	void reshapeFunc(int w, int h);
+	void timerFunc(int value);
+	void mouseButton(int button, int state, int x, int y);
+	void mouseMove(int x, int y);
+	void releaseKey(unsigned char key, int x, int y);
+	void releaseSpecialKey(int key, int x, int y);
 
 	Game();
+	void drawChessPieces();
 	~Game();
 };
 

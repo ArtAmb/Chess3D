@@ -12,7 +12,10 @@ namespace Colors {
 		float getG() { return g; }
 		float getA() { return a; }
 		float toColorValue();
-
+		float* toVector() {
+			float tmp[] = { r,g,b };
+			return tmp;
+		}
 	protected:
 
 	private:

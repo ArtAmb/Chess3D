@@ -27,6 +27,11 @@ Point3D Point3D::move(float off_x, float off_y, float off_z) {
 	return Point3D(x + off_x, y + off_y, z + off_z);
 }
 
+Point3D Point3D::move(Point3D offVector)
+{
+	return move(offVector.getX(), offVector.getY(), offVector.getZ());
+}
+
 void Point3D::moveMyself(float off_x, float off_y, float off_z) {
 	x += off_x;
 	y += off_y;
