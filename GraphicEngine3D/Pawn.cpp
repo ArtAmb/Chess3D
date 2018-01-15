@@ -1,3 +1,4 @@
+#include "Engine3D.h"
 #include "Pawn.h"
 #include "ChessBoard.h"
 
@@ -10,8 +11,8 @@ Pawn::~Pawn()
 {
 }
 
-Pawn::Pawn(CHESS_ROW r, CHESS_COLUMN col, Colors::RGB color, ChessBoard* chessBoard) {
-	init(r, col, color, chessBoard);
+Pawn::Pawn(CHESS_ROW r, CHESS_COLUMN col, int listId, ChessBoard* chessBoard) {
+	init(r, col, listId, chessBoard);
 }
 
 bool Pawn::checkNextMove(ChessBoardField field) {
@@ -26,9 +27,8 @@ void Pawn::highlightPossibleMoves() {
 
 }
 
-void Pawn::draw() {
-	chessBoard->getField(column, row)->translateToFieldCenter(Point3D(0, 0, 0));
-	glColor3fv(color.toVector());
+void Pawn::drawPawn(Colors::RGB color) {
+	Engine3DLoader::getEngine()->glColor3c(color);
 	glScalef(0.25f, 0.25f, 0.25f);
 	glutSolidTorus(0.2f, 1.0f, 100, 200);
 	int howMany = 7;

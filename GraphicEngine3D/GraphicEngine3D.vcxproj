@@ -156,7 +156,6 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="AssimpLoader.cpp" />
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="ChessBoard.cpp" />
     <ClCompile Include="ChessPiece.cpp" />
@@ -170,7 +169,6 @@
     <ClCompile Include="RGB.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="AssimpLoader.h" />
     <ClInclude Include="Camera.h" />
     <ClInclude Include="ChessBoard.h" />
     <ClInclude Include="ChessPiece.h" />
@@ -178,6 +176,7 @@
     <ClInclude Include="Engine3DAdapter.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="ChessEnums.h" />
+    <ClInclude Include="GlutHeader.h" />
     <ClInclude Include="Pawn.h" />
     <ClInclude Include="Point3D.h" />
     <ClInclude Include="Rectangle3D.h" />

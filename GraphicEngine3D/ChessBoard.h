@@ -3,7 +3,8 @@
 #include "Rectangle3D.h"
 #include <iostream>
 #include "ChessEnums.h"
-#include "glut.h"
+#include "GlutHeader.h"
+
 class ChessBoardField {
 private:
 	CHESS_ROW x;

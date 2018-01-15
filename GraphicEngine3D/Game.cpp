@@ -5,7 +5,7 @@
 #include "Rectangle3D.h"
 #include "ChessBoard.h"
 #include <vector>
-#include <glut.h>
+#include "GlutHeader.h"
 #include "AssimpLoader.h"
 #include "ChessEnums.h"
 #include "Pawn.h"
@@ -19,29 +19,31 @@ Game::Game()
 	engine = Engine3DLoader::getEngine();
 	camera = new Camera(Point3D(x, y, z), Point3D(x, y, z), Point3D(0.0, 1.0f, 0.0));
 	chessBoard = new ChessBoard(Point3D(0.0f, 0.0f, 0.0f), 1, 1, 0.2);
+	loadDisplayLists();
+	
+	for (int i = 0; i < 8; ++i) {
+		pieces[WHITE][i] = new Pawn(R_2, (CHESS_COLUMN)i, piecesDiplayList[WHITE][PAWN], chessBoard);
+	}
 
-	Colors::RGB whiteColor = Colors::RED;
-	Colors::RGB blackColor = Colors::BLUE;
-	pieces[WHITE][0] = new Pawn(R_2, C_A, whiteColor, chessBoard);
-	pieces[WHITE][1] = new Pawn(R_2, C_B, whiteColor, chessBoard);
-	pieces[WHITE][2] = new Pawn(R_2, C_C, whiteColor, chessBoard);
-	pieces[WHITE][3] = new Pawn(R_2, C_D, whiteColor, chessBoard);
-	pieces[WHITE][4] = new Pawn(R_2, C_E, whiteColor, chessBoard);
-	pieces[WHITE][5] = new Pawn(R_2, C_F, whiteColor, chessBoard);
-	pieces[WHITE][6] = new Pawn(R_2, C_G, whiteColor, chessBoard);
-	pieces[WHITE][7] = new Pawn(R_2, C_H, whiteColor, chessBoard);
-
-	pieces[BLACK][0] = new Pawn(R_7, C_A, blackColor, chessBoard);
-	pieces[BLACK][1] = new Pawn(R_7, C_B, blackColor, chessBoard);
-	pieces[BLACK][2] = new Pawn(R_7, C_C, blackColor, chessBoard);
-	pieces[BLACK][3] = new Pawn(R_7, C_D, blackColor, chessBoard);
-	pieces[BLACK][4] = new Pawn(R_7, C_E, blackColor, chessBoard);
-	pieces[BLACK][5] = new Pawn(R_7, C_F, blackColor, chessBoard);
-	pieces[BLACK][6] = new Pawn(R_7, C_G, blackColor, chessBoard);
-	pieces[BLACK][7] = new Pawn(R_7, C_H, blackColor, chessBoard);
-
+	for (int i = 0; i < 8; ++i) {
+		pieces[BLACK][i] = new Pawn(R_7, (CHESS_COLUMN)i, piecesDiplayList[BLACK][PAWN], chessBoard);
+	}
 }
 
+void Game::loadDisplayLists() {
+	int i = 0;
+
+	piecesDiplayList[WHITE][PAWN] = glGenLists(++i);
+	
+	glNewList(piecesDiplayList[WHITE][PAWN], GL_COMPILE);
+	Pawn::drawPawn(whiteColor);
+	glEndList();
+
+	piecesDiplayList[BLACK][PAWN] = glGenLists(++i);
+	glNewList(piecesDiplayList[BLACK][PAWN], GL_COMPILE);
+	Pawn::drawPawn(blackColor);
+	glEndList();
+}
 
 void Game::drawChessPieces() {
 

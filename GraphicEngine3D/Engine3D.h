@@ -1,21 +1,13 @@
 #pragma once
 #include <iostream>
 #include "RGB.h"
-#pragma comment(lib, "assimp.lib")
-
-#include "AssimpLoader.h"
-
-#include <assimp/Importer.hpp>      // C++ importer interface
-#include <assimp/scene.h>           // Output data structure
-#include <assimp/postprocess.h>     // Post processing fla
-
-#include <glut.h>
+#include "Point3D.h"
+#include "GlutHeader.h"
 
 class Engine3D
 {
 	void createWindow();
 	void initRendering();
-	AssimpLoader* loader;
 
 public:
 	void loadModels();
@@ -24,8 +16,6 @@ public:
 	void unload();
 	void clean(Colors::RGB color);
 	void displayText(float x, float y, Colors::RGB color, std::string string);
-	void glColor(Colors::RGB color);
-
 
 	void setKeyboard(void(*keyboard)(unsigned char, int, int));
 	void setSpecialKeyboard(void(*keyboard)(int, int, int));
@@ -38,6 +28,9 @@ public:
 	void mouseMotionFunc(void(*moveMotion)(int, int));
 	
 	void startMainLoop();
+
+	Engine3D* glVertex3p(Point3D p);
+	Engine3D* glColor3c(Colors::RGB c);
 
 	Engine3D(int argc, char**argv);
 	~Engine3D();

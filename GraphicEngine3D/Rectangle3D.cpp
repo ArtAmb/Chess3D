@@ -1,6 +1,7 @@
 #include <iostream>
+#include "Engine3D.h"
 #include "Rectangle3D.h"
-#include <glut.h>
+#include "GlutHeader.h"
 Rectangle3D::Rectangle3D()
 {
 }
@@ -19,51 +20,57 @@ Rectangle3D::Rectangle3D(Point3D point, float length, float width, float height)
 
 
 void Rectangle3D::drawTOP(Colors::RGB color) {
-	glColor3f(color.getR(), color.getG(), color.getB());
-	glVertex3fv(getL1_RT_C_Point().toVector());
-	glVertex3fv(getL1_LT_C_Point().toVector());
-	glVertex3fv(getL1_LB_C_Point().toVector());
-	glVertex3fv(getL1_RB_C_Point().toVector());
+	Engine3DLoader::getEngine()
+		->glColor3c(color)
+		->glVertex3p(getL1_RT_C_Point())
+		->glVertex3p(getL1_LT_C_Point())
+		->glVertex3p(getL1_LB_C_Point())
+		->glVertex3p(getL1_RB_C_Point());
 }
 
 void Rectangle3D::drawBOTTOM(Colors::RGB color) {
-	glColor3f(color.getR(), color.getG(), color.getB());
-	glVertex3fv(getL2_RT_C_Point().toVector());
-	glVertex3fv(getL2_LT_C_Point().toVector());
-	glVertex3fv(getL2_LB_C_Point().toVector());
-	glVertex3fv(getL2_RB_C_Point().toVector());
+	Engine3DLoader::getEngine()
+		->glColor3c(color)
+		->glVertex3p(getL2_RT_C_Point())
+		->glVertex3p(getL2_LT_C_Point())
+		->glVertex3p(getL2_LB_C_Point())
+		->glVertex3p(getL2_RB_C_Point());
 }
 
 void Rectangle3D::drawFRONT(Colors::RGB color) {
-	glColor3f(color.getR(), color.getG(), color.getB());
-	glVertex3fv(getL1_LT_C_Point().toVector());
-	glVertex3fv(getL1_RT_C_Point().toVector());
-	glVertex3fv(getL2_RT_C_Point().toVector());
-	glVertex3fv(getL2_LT_C_Point().toVector());
+	Engine3DLoader::getEngine()
+		->glColor3c(color)
+		->glVertex3p(getL1_LT_C_Point())
+		->glVertex3p(getL1_RT_C_Point())
+		->glVertex3p(getL2_RT_C_Point())
+		->glVertex3p(getL2_LT_C_Point());
 }
 
 void Rectangle3D::drawRIGHT(Colors::RGB color) {
-	glColor3f(color.getR(), color.getG(), color.getB());
-	glVertex3fv(getL2_RT_C_Point().toVector());
-	glVertex3fv(getL1_RT_C_Point().toVector());
-	glVertex3fv(getL1_RB_C_Point().toVector());
-	glVertex3fv(getL2_RB_C_Point().toVector());
+	Engine3DLoader::getEngine()
+		->glColor3c(color)
+		->glVertex3p(getL2_RT_C_Point())
+		->glVertex3p(getL1_RT_C_Point())
+		->glVertex3p(getL1_RB_C_Point())
+		->glVertex3p(getL2_RB_C_Point());
 }
 
 void Rectangle3D::drawLEFT(Colors::RGB color) {
-	glColor3f(color.getR(), color.getG(), color.getB());
-	glVertex3fv(getL2_LT_C_Point().toVector());
-	glVertex3fv(getL1_LT_C_Point().toVector());
-	glVertex3fv(getL1_LB_C_Point().toVector());
-	glVertex3fv(getL2_LB_C_Point().toVector());
+	Engine3DLoader::getEngine()
+		->glColor3c(color)
+		->glVertex3p(getL2_LT_C_Point())
+		->glVertex3p(getL1_LT_C_Point())
+		->glVertex3p(getL1_LB_C_Point())
+		->glVertex3p(getL2_LB_C_Point());
 }
 
 void Rectangle3D::drawBACK(Colors::RGB color) {
-	glColor3f(color.getR(), color.getG(), color.getB());
-	glVertex3fv(getL1_LB_C_Point().toVector());
-	glVertex3fv(getL1_RB_C_Point().toVector());
-	glVertex3fv(getL2_RB_C_Point().toVector());
-	glVertex3fv(getL2_LB_C_Point().toVector());
+	Engine3DLoader::getEngine()
+		->glColor3c(color)
+		->glVertex3p(getL1_LB_C_Point())
+		->glVertex3p(getL1_RB_C_Point())
+		->glVertex3p(getL2_RB_C_Point())
+		->glVertex3p(getL2_LB_C_Point());
 }
 
 

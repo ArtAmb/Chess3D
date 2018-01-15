@@ -1,4 +1,5 @@
 #include "Engine3D.h"
+#include "Point3D.h"
 #include <vector>
 Engine3D* Engine3DLoader::engine = nullptr;
 
@@ -9,7 +10,7 @@ Engine3D::Engine3D(int argc, char**argv)
 
 Engine3D::~Engine3D()
 {
-	delete loader;
+	
 }
 
 void Engine3D::createWindow() {
@@ -27,7 +28,7 @@ void Engine3D::init(int argc, char**argv) {
 }
 
 void Engine3D::drawLoadedModels() {
-	loader->RenderModel();
+
 }
 
 void Engine3D::unload() {
@@ -68,6 +69,14 @@ void Engine3D::setTimer(int ms, void(*update)(int), int value) {
 void Engine3D::startMainLoop() {
 	glutMainLoop();
 }
+Engine3D* Engine3D::glVertex3p(Point3D p) {
+	glVertex3f(p.getX(), p.getY(), p.getZ()); 
+	return this;
+}
+Engine3D* Engine3D::glColor3c(Colors::RGB c) {
+	glColor3f(c.getR(), c.getG(), c.getB());
+	return this;
+}
 void Engine3D::setSpecialUpKeyboard(void(*keyboard)(int, int, int)) {
 	glutSpecialUpFunc(keyboard);
 }
@@ -89,9 +98,4 @@ void Engine3D::displayText(float x, float y, Colors::RGB color, std::string stri
 	for (unsigned int i = 0; i < string.length(); i++) {
 		glutBitmapCharacter(GLUT_BITMAP_TIMES_ROMAN_10, string[i]);
 	}
-}
-
-void Engine3D::glColor(Colors::RGB color)
-{
-	glColor3fv(color.toVector());
 }

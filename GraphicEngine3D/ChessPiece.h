@@ -11,12 +11,13 @@ protected:
 	CHESS_ROW row;
 	CHESS_COLUMN column;
 	Colors::RGB color;
+	int listId;
 	bool alive = true;
-	void drawChessPhillar(int howMany, float delta);
-	void init(CHESS_ROW r, CHESS_COLUMN col, Colors::RGB c, ChessBoard* chessBoard);
+	static void drawChessPhillar(int howMany, float delta);
+	void init(CHESS_ROW r, CHESS_COLUMN col, int listId, ChessBoard* chessBoard);
 public:
 	ChessPiece();
-	ChessPiece(CHESS_ROW r, CHESS_COLUMN col, Colors::RGB color, ChessBoard* chessBoard);
+	ChessPiece(CHESS_ROW r, CHESS_COLUMN col, int listId, ChessBoard* chessBoard);
 
 
 	virtual bool checkNextMove(ChessBoardField field) = 0;
@@ -24,7 +25,7 @@ public:
 
 	virtual void highlightPossibleMoves() = 0;
 
-	virtual void draw() = 0;
+	virtual void draw();
 
 	void die() {
 		alive = false;

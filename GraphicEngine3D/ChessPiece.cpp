@@ -1,19 +1,25 @@
-#include "ChessPiece.h"
-#include "glut.h"
-//#include "ChessBoard.h"
+//#include "ChessPiece.h"
+#include "ChessBoard.h"
+
 
 ChessPiece::ChessPiece()
 {
 }
 
-ChessPiece::ChessPiece(CHESS_ROW r, CHESS_COLUMN col, Colors::RGB c, ChessBoard* chessBoard) {
-	init(r, col, c, chessBoard);
+ChessPiece::ChessPiece(CHESS_ROW r, CHESS_COLUMN col, int listId, ChessBoard* chessBoard) {
+	init(r, col, listId, chessBoard);
 }
 
-void ChessPiece::init(CHESS_ROW r, CHESS_COLUMN col, Colors::RGB c, ChessBoard* chessBoard) {
+void ChessPiece::draw()
+{
+	chessBoard->getField(column, row)->translateToFieldCenter(Point3D(0, 0, 0));
+	glCallList(listId);
+}
+
+void ChessPiece::init(CHESS_ROW r, CHESS_COLUMN col, int listId, ChessBoard* chessBoard) {
 	this->row = r;
 	this->column = col;
-	this->color = c;
+	this->listId = listId;
 	this->chessBoard = chessBoard;
 }
 

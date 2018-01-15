@@ -1,9 +1,7 @@
 #include "Engine3D.h"
 #include "Game.h"
 #include "Engine3DAdapter.h"
-#include <glut.h>
-#include <gl\GL.h>
-#include <gl\GLU.h>
+#include "GlutHeader.h"
 
 
 int main(int argc, char** argv)

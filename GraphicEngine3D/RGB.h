@@ -6,6 +6,7 @@ namespace Colors {
 	public:
 		RGB() {};
 		RGB(float r, float g, float b, float a);
+		//RGB(Colors::RGB color);
 		virtual ~RGB();
 		float getR() { return r; }
 		float getB() { return b; }
