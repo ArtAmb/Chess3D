@@ -1,2 +1,3 @@
 #pragma once
-#include "glut.h"
+#define GLUT_DISABLE_ATEXIT_HACK
+#include <glut.h>

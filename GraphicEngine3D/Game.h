@@ -27,12 +27,12 @@ class Game
 		// angle of rotation for the camera direction
 	float angleX = 0.0f;
 	float angleY = 0.0f;
-	const static int numberOfAllOnePlayerPieces = 8;
+	const static int numberOfAllOnePlayerPieces = 16;
 	ChessPiece* pieces[2][numberOfAllOnePlayerPieces];
-	void computePos(float deltaMove); 
+	void computePos(float deltaMove);
 
 	float veticalDelta = 0;
-	
+
 	Camera* camera;
 
 	ChessBoard* chessBoard;

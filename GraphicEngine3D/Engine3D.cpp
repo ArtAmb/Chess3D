@@ -1,7 +1,7 @@
 #include "Engine3D.h"
 #include "Point3D.h"
 #include <vector>
-Engine3D* Engine3DLoader::engine = nullptr;
+Engine3D* Engine3DLoader::engine = NULL;
 
 Engine3D::Engine3D(int argc, char**argv)
 {
@@ -10,7 +10,7 @@ Engine3D::Engine3D(int argc, char**argv)
 
 Engine3D::~Engine3D()
 {
-	
+
 }
 
 void Engine3D::createWindow() {
@@ -41,7 +41,7 @@ void Engine3D::initRendering() {
 	glutIgnoreKeyRepeat(1);
 	//loader = new AssimpLoader();
 	//loader->LoadModelFromFile("E:/MVS2015Workspace/GraphicEngine3D/woodenChess3DModels/Chess/chess.obj");
-	
+
 }
 
 void Engine3D::clean(Colors::RGB color) {
@@ -70,7 +70,7 @@ void Engine3D::startMainLoop() {
 	glutMainLoop();
 }
 Engine3D* Engine3D::glVertex3p(Point3D p) {
-	glVertex3f(p.getX(), p.getY(), p.getZ()); 
+	glVertex3f(p.getX(), p.getY(), p.getZ());
 	return this;
 }
 Engine3D* Engine3D::glColor3c(Colors::RGB c) {

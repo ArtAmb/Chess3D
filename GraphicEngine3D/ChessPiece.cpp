@@ -37,3 +37,20 @@ void ChessPiece::drawChessPhillar(int howMany, float delta) {
 		z += 0.1;
 	}
 }
+
+void ChessPiece::drawRookPhillar(float radius, int howMany, float translationDelta)
+{
+    int half = howMany / 2;
+    for (int i = 0; i < half; ++i)
+    {
+        glTranslatef(0, 0, translationDelta);
+        glutSolidTorus(radius, radius, 100, 200);
+        radius -= 0.05;
+    }
+    for (int i = 0; i < half; ++i)
+    {
+        glTranslatef(0, 0, translationDelta);
+        glutSolidTorus(radius, radius, 100, 200);
+        radius += 0.05;
+    }
+}

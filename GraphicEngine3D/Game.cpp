@@ -6,9 +6,13 @@
 #include "ChessBoard.h"
 #include <vector>
 #include "GlutHeader.h"
-#include "AssimpLoader.h"
 #include "ChessEnums.h"
 #include "Pawn.h"
+#include "Bishop.h"
+#include "Rook.h"
+#include "Knight.h"
+#include "Queen.h"
+#include "King.h"
 #include <cmath>
 
 #define M_PI 3.14159265358979323846
@@ -20,7 +24,7 @@ Game::Game()
 	camera = new Camera(Point3D(x, y, z), Point3D(x, y, z), Point3D(0.0, 1.0f, 0.0));
 	chessBoard = new ChessBoard(Point3D(0.0f, 0.0f, 0.0f), 1, 1, 0.2);
 	loadDisplayLists();
-	
+
 	for (int i = 0; i < 8; ++i) {
 		pieces[WHITE][i] = new Pawn(R_2, (CHESS_COLUMN)i, piecesDiplayList[WHITE][PAWN], chessBoard);
 	}
@@ -28,13 +32,36 @@ Game::Game()
 	for (int i = 0; i < 8; ++i) {
 		pieces[BLACK][i] = new Pawn(R_7, (CHESS_COLUMN)i, piecesDiplayList[BLACK][PAWN], chessBoard);
 	}
+
+	pieces[WHITE][8] = new Bishop(R_1, C_C, piecesDiplayList[WHITE][BISHOP], chessBoard);
+	pieces[WHITE][9] = new Bishop(R_1, C_F, piecesDiplayList[WHITE][BISHOP], chessBoard);
+
+	pieces[BLACK][8] = new Bishop(R_8, C_C, piecesDiplayList[BLACK][BISHOP], chessBoard);
+	pieces[BLACK][9] = new Bishop(R_8, C_F, piecesDiplayList[BLACK][BISHOP], chessBoard);
+
+	pieces[WHITE][10] = new Rook(R_1, C_A, piecesDiplayList[WHITE][TOWER], chessBoard);
+	pieces[WHITE][11] = new Rook(R_1, C_H, piecesDiplayList[WHITE][TOWER], chessBoard);
+
+	pieces[BLACK][10] = new Rook(R_8, C_A, piecesDiplayList[BLACK][TOWER], chessBoard);
+	pieces[BLACK][11] = new Rook(R_8, C_H, piecesDiplayList[BLACK][TOWER], chessBoard);
+
+	pieces[WHITE][12] = new Knight(R_1, C_B, piecesDiplayList[WHITE][KNIGHT], chessBoard);
+	pieces[WHITE][13] = new Knight(R_1, C_G, piecesDiplayList[WHITE][KNIGHT], chessBoard);
+
+	pieces[BLACK][12] = new Knight(R_8, C_B, piecesDiplayList[BLACK][KNIGHT], chessBoard);
+	pieces[BLACK][13] = new Knight(R_8, C_G, piecesDiplayList[BLACK][KNIGHT], chessBoard);
+
+	pieces[WHITE][14] = new Queen(R_1, C_D, piecesDiplayList[WHITE][QUEEN], chessBoard);
+	pieces[BLACK][14] = new Queen(R_8, C_D, piecesDiplayList[BLACK][QUEEN], chessBoard);
+
+	pieces[WHITE][15] = new King(R_1, C_E, piecesDiplayList[WHITE][KING], chessBoard);
+	pieces[BLACK][15] = new King(R_8, C_E, piecesDiplayList[BLACK][KING], chessBoard);
 }
 
 void Game::loadDisplayLists() {
 	int i = 0;
 
 	piecesDiplayList[WHITE][PAWN] = glGenLists(++i);
-	
 	glNewList(piecesDiplayList[WHITE][PAWN], GL_COMPILE);
 	Pawn::drawPawn(whiteColor);
 	glEndList();
@@ -43,6 +70,57 @@ void Game::loadDisplayLists() {
 	glNewList(piecesDiplayList[BLACK][PAWN], GL_COMPILE);
 	Pawn::drawPawn(blackColor);
 	glEndList();
+
+    piecesDiplayList[BLACK][BISHOP] = glGenLists(++i);
+	glNewList(piecesDiplayList[BLACK][BISHOP], GL_COMPILE);
+	Bishop::drawBishop(blackColor);
+	glEndList();
+
+	piecesDiplayList[WHITE][BISHOP] = glGenLists(++i);
+	glNewList(piecesDiplayList[WHITE][BISHOP], GL_COMPILE);
+	Bishop::drawBishop(whiteColor);
+	glEndList();
+
+	piecesDiplayList[WHITE][TOWER] = glGenLists(++i);
+	glNewList(piecesDiplayList[WHITE][TOWER], GL_COMPILE);
+	Rook::drawRook(whiteColor);
+	glEndList();
+
+	piecesDiplayList[BLACK][TOWER] = glGenLists(++i);
+	glNewList(piecesDiplayList[BLACK][TOWER], GL_COMPILE);
+	Rook::drawRook(blackColor);
+	glEndList();
+
+    piecesDiplayList[WHITE][KNIGHT] = glGenLists(++i);
+	glNewList(piecesDiplayList[WHITE][KNIGHT], GL_COMPILE);
+	Knight::drawKnight(whiteColor);
+	glEndList();
+
+	piecesDiplayList[BLACK][KNIGHT] = glGenLists(++i);
+	glNewList(piecesDiplayList[BLACK][KNIGHT], GL_COMPILE);
+	Knight::drawKnight(blackColor);
+	glEndList();
+
+	piecesDiplayList[WHITE][QUEEN] = glGenLists(++i);
+	glNewList(piecesDiplayList[WHITE][QUEEN], GL_COMPILE);
+	Queen::drawQueen(whiteColor);
+	glEndList();
+
+	piecesDiplayList[BLACK][QUEEN] = glGenLists(++i);
+	glNewList(piecesDiplayList[BLACK][QUEEN], GL_COMPILE);
+	Queen::drawQueen(blackColor);
+	glEndList();
+
+	piecesDiplayList[WHITE][KING] = glGenLists(++i);
+	glNewList(piecesDiplayList[WHITE][KING], GL_COMPILE);
+	King::drawKing(whiteColor);
+	glEndList();
+
+	piecesDiplayList[BLACK][KING] = glGenLists(++i);
+	glNewList(piecesDiplayList[BLACK][KING], GL_COMPILE);
+	King::drawKing(blackColor);
+	glEndList();
+
 }
 
 void Game::drawChessPieces() {
@@ -207,11 +285,11 @@ void Game::displayFunc() {
 
 	//Engine3D* e = Engine3DLoader::getEngine();
 	//e->glBegin(GL_LINES)->glVertex3f(0, 0, -5)->glVertex3f(2, 2, -5)->glEnd();
-	
+
 	//engine->displayText(-2, 0, Colors::RED, "cameraPosition: " + camera->getPosition()->toString());
 	//engine->displayText(-2, 0.1, Colors::RED, "placeCameraLookingAt: " + camera->getPlaceCameraLookingAt()->toString());
 	//engine->displayText(-2, 0.2, Colors::RED, "cameraVerticalOffset: " + camera->getVerticalOffset()->toString());
-	
+
 	//glRotatef(_cameraangle, 0.0f, 1.0f, 0.0f);
 	settingMatrixProperly();
 	glPushMatrix();
@@ -222,7 +300,7 @@ void Game::displayFunc() {
 	glPopMatrix();
 
 	drawChessPieces();
-	
+
 	/*glPushMatrix();
 	settingMatrixProperly();
 	engine->glColor(Colors::RED);

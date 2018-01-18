@@ -156,19 +156,25 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Bishop.cpp" />
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="ChessBoard.cpp" />
     <ClCompile Include="ChessPiece.cpp" />
     <ClCompile Include="Engine3D.cpp" />
     <ClCompile Include="Engine3DAdapter.cpp" />
     <ClCompile Include="Game.cpp" />
+    <ClCompile Include="King.cpp" />
+    <ClCompile Include="Knight.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Pawn.cpp" />
     <ClCompile Include="Point3D.cpp" />
+    <ClCompile Include="Queen.cpp" />
     <ClCompile Include="Rectangle3D.cpp" />
     <ClCompile Include="RGB.cpp" />
+    <ClCompile Include="Rook.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Bishop.h" />
     <ClInclude Include="Camera.h" />
     <ClInclude Include="ChessBoard.h" />
     <ClInclude Include="ChessPiece.h" />
@@ -176,11 +182,16 @@
     <ClInclude Include="Engine3DAdapter.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="ChessEnums.h" />
+    <ClInclude Include="GlutConfigFunc.h" />
     <ClInclude Include="GlutHeader.h" />
+    <ClInclude Include="King.h" />
+    <ClInclude Include="Knight.h" />
     <ClInclude Include="Pawn.h" />
     <ClInclude Include="Point3D.h" />
+    <ClInclude Include="Queen.h" />
     <ClInclude Include="Rectangle3D.h" />
     <ClInclude Include="RGB.h" />
+    <ClInclude Include="Rook.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="ClassDiagram.cd" />

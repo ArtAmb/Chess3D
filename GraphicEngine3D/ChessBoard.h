@@ -4,6 +4,7 @@
 #include <iostream>
 #include "ChessEnums.h"
 #include "GlutHeader.h"
+#include "Engine3D.h"
 
 class ChessBoardField {
 private:
