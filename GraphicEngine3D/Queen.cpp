@@ -28,6 +28,7 @@ void Queen::highlightPossibleMoves() {
 
 void Queen::drawQueen(Colors::RGB color) {
 	Engine3DLoader::getEngine()->glColor3c(color);
+
 	glScalef(0.25f, 0.25f, 0.25f);
 	glutSolidTorus(0.2f, 1.0f, 100, 200);
 	ChessPiece::drawRookPhillar(0.5, 14, -0.3);

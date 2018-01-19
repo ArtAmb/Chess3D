@@ -29,6 +29,7 @@ void Pawn::highlightPossibleMoves() {
 
 void Pawn::drawPawn(Colors::RGB color) {
 	Engine3DLoader::getEngine()->glColor3c(color);
+
 	glScalef(0.25f, 0.25f, 0.25f);
 	glutSolidTorus(0.2f, 1.0f, 100, 200);
 	int howMany = 7;

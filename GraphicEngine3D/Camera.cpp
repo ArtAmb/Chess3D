@@ -31,17 +31,17 @@ void Camera::lookAtWithOffset(Point3D cameraPositionOff, Point3D placeCameraLook
 	lookAt(cameraPosition.move(cameraPositionOff), placeCameraLookingAt.move(placeCameraLookingAtOff), cameraVerticalOffset.move(cameraVerticalOffsetOff));
 }
 
-void Camera::reset()
-{
-	this->cameraPosition = startCameraPosition;
-	this->placeCameraLookingAt = startPlaceCameraLookingAt;
-	this->cameraVerticalOffset = startCameraVerticalOffset;
-}
-
 
 void Camera::lookAt(Point3D cameraPosition, Point3D placeCameraLookingAt, Point3D cameraVerticalOffset)
 {
 	gluLookAt(cameraPosition.getX(), cameraPosition.getY(), cameraPosition.getZ(),
 		placeCameraLookingAt.getX(), placeCameraLookingAt.getY(), placeCameraLookingAt.getZ(),
 		cameraVerticalOffset.getX(), cameraVerticalOffset.getY(), cameraVerticalOffset.getZ());
+}
+
+void Camera::reset()
+{
+	this->cameraPosition = startCameraPosition;
+	this->placeCameraLookingAt = startPlaceCameraLookingAt;
+	this->cameraVerticalOffset = startCameraVerticalOffset;
 }

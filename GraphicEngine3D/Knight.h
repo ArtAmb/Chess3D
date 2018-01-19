@@ -13,6 +13,7 @@ class Knight : public ChessPiece
 
 	//void draw();
 	static void drawKnight(Colors::RGB color);
+	static void drawRotatingKnight(Colors::RGB color, int angle);
     virtual ~Knight();
     protected:
 

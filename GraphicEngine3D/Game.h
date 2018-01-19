@@ -2,23 +2,10 @@
 #include "Engine3D.h"
 #include "ChessBoard.h"
 #include "Camera.h"
+#include "FieldSelector.h"
 
 enum PLAYER_COLOR { WHITE, BLACK };
 enum CHESS_PIECES { PAWN, KNIGHT, TOWER, BISHOP, QUEEN, KING };
-
-class FieldSelector {
-	CHESS_ROW row;
-	CHESS_COLUMN column;
-public:
-	FieldSelector() {};
-	FieldSelector(CHESS_ROW row, CHESS_COLUMN column) : row(row), column(column) {};
-	void move(int x, int y);
-	CHESS_ROW getRow() { return row; }
-	CHESS_COLUMN getColumn() { return column; };
-
-	void absoluteMove(CHESS_ROW x, CHESS_COLUMN y);
-};
-
 class Game
 {
 	static Engine3D* engine;
@@ -27,14 +14,13 @@ class Game
     Colors::RGB whiteColor = Colors::RED;
     Colors::RGB blackColor = Colors::BLUE;
 
-	int piecesDiplayList[2][numberOfPieceTypes];
-
-	FieldSelector fieldSelector;
+    FieldSelector fieldSelector;
 
 	void moveSelector(int x, int y) {
 		fieldSelector.move(x, y);
 	}
 
+	int piecesDiplayList[2][numberOfPieceTypes];
 	float lx = 0.0f, ly = 0.0f, lz = -1.0f;
 	float deltaAngleX = 0.0f;
 	float deltaAngleY = 0.0f;

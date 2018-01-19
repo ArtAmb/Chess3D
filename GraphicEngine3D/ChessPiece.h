@@ -15,6 +15,7 @@ protected:
 	bool alive = true;
 	static void drawChessPhillar(int howMany, float delta);
 	static void drawRookPhillar(float radius, int howMany, float translationDelta);
+	static void drawKnightPhillar(float radius, int howMany, float translationDelta);
 	void init(CHESS_ROW r, CHESS_COLUMN col, int listId, ChessBoard* chessBoard);
 public:
 	ChessPiece();

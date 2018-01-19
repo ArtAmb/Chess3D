@@ -19,6 +19,7 @@ int main(int argc, char** argv)
 	engine->setReshape(Engine3DAdapter::reshapeFunc);
 	engine->mouseButtonsFunc(Engine3DAdapter::mouseButtonsFunc);
 	engine->mouseMotionFunc(Engine3DAdapter::mouseMotionFunc);
+	engine->setLightsAndMaterials();
 	engine->setTimer(25, Engine3DAdapter::timerFunc, 0);
 
 	engine->startMainLoop();

@@ -162,6 +162,7 @@
     <ClCompile Include="ChessPiece.cpp" />
     <ClCompile Include="Engine3D.cpp" />
     <ClCompile Include="Engine3DAdapter.cpp" />
+    <ClCompile Include="FieldSelector.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="King.cpp" />
     <ClCompile Include="Knight.cpp" />
@@ -180,6 +181,7 @@
     <ClInclude Include="ChessPiece.h" />
     <ClInclude Include="Engine3D.h" />
     <ClInclude Include="Engine3DAdapter.h" />
+    <ClInclude Include="FieldSelector.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="ChessEnums.h" />
     <ClInclude Include="GlutConfigFunc.h" />

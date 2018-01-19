@@ -63,6 +63,9 @@
     <ClCompile Include="Bishop.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="FieldSelector.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine3D.h">
@@ -117,6 +120,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Rook.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="FieldSelector.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

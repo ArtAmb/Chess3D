@@ -3,6 +3,11 @@
 #include <vector>
 Engine3D* Engine3DLoader::engine = NULL;
 
+GLfloat lightAmb[] = {0.2, 0.2, 0.2, 1.0};
+GLfloat lightDif[] = {0.8, 0.8, 0.8, 1.0};
+GLfloat lightPos[] = {100, 200, 0, 1.0};
+GLfloat lightSpec[] = {1, 1, 1, 1};
+
 Engine3D::Engine3D(int argc, char**argv)
 {
 	init(argc, argv);
@@ -98,4 +103,32 @@ void Engine3D::displayText(float x, float y, Colors::RGB color, std::string stri
 	for (unsigned int i = 0; i < string.length(); i++) {
 		glutBitmapCharacter(GLUT_BITMAP_TIMES_ROMAN_10, string[i]);
 	}
+}
+
+
+
+void Engine3D::setLightsAndMaterials()
+{
+
+	glLightModeli(GL_LIGHT_MODEL_LOCAL_VIEWER, GL_TRUE);
+
+	glEnable(GL_LIGHTING);
+	glEnable(GL_LIGHT0);
+
+
+	glLightfv(GL_LIGHT0, GL_AMBIENT, lightAmb);
+	glLightfv(GL_LIGHT0, GL_DIFFUSE, lightDif);
+	glLightfv(GL_LIGHT0, GL_POSITION, lightPos);
+	glLightfv(GL_LIGHT0, GL_SPECULAR, lightSpec);
+
+	glMaterialfv(GL_FRONT, GL_SPECULAR, lightSpec);
+	glMateriali(GL_FRONT, GL_SHININESS, 128);
+
+	glEnable(GL_COLOR_MATERIAL);
+	glColorMaterial(GL_FRONT, GL_AMBIENT_AND_DIFFUSE);
+
+    glEnable( GL_NORMALIZE );
+
+
+
 }

@@ -60,3 +60,29 @@ void ChessBoard::draw() {
 ChessBoardField*  ChessBoard::getField(CHESS_COLUMN c, CHESS_ROW r) {
 	return &board[c][r];
 }
+void ChessBoard::unlightAllFields(){
+    for (int i = 0; i < BOARD_SIZE; ++i) {
+		for (int j = 0; j < BOARD_SIZE; ++j) {
+			board[i][j].stopHighliting();
+		}
+	}
+}
+
+void ChessBoard::highlightFields(FieldSelector fieldSelector){
+    ChessBoardField* field = &board[fieldSelector.getRow()][fieldSelector.getColumn()];
+    field->highlight();
+
+    if(field->getPiece() != NULL){
+        field->getPiece()->highlightPossibleMoves();
+    }
+
+}
+
+void ChessBoard::selectField(FieldSelector fieldSelector){
+    ChessBoardField* field = &board[fieldSelector.getRow()][fieldSelector.getColumn()];
+    fieldSelector.unselect();
+
+    if(field->getPiece() != NULL){
+        fieldSelector.select();
+    }
+}

@@ -14,7 +14,7 @@ Bishop::~Bishop()
 
 bool Bishop::checkNextMove(ChessBoardField field)
 {
-	return false;
+	return true;
 }
 void Bishop::move(ChessBoardField field)
 {
@@ -42,6 +42,10 @@ void Bishop::drawBishop(Colors::RGB color){
 	drawChessBishopPhillar(howMany, delta, transalteDelta);
 	glTranslatef(0, 0, -transalteDelta);
 	glutSolidSphere(0.7, 100, 100);
+	glTranslatef(0,0,-0.25);
+	glRotated( 180, 0,1,0 );
+	glutSolidCone(0.69, 1.2, 10,10 );
+
 }
 
 void Bishop::highlightPossibleMoves()

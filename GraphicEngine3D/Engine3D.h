@@ -26,8 +26,9 @@ public:
 	void setTimer(int ms, void(*update)(int), int value);
 	void mouseButtonsFunc(void(*mouseButton)(int, int, int, int));
 	void mouseMotionFunc(void(*moveMotion)(int, int));
-	
+
 	void startMainLoop();
+	void setLightsAndMaterials();
 
 	Engine3D* glVertex3p(Point3D p);
 	Engine3D* glColor3c(Colors::RGB c);

@@ -5,6 +5,7 @@
 #include "ChessEnums.h"
 #include "GlutHeader.h"
 #include "Engine3D.h"
+#include "FieldSelector.h"
 
 class ChessBoardField {
 private:
@@ -41,6 +42,8 @@ public:
 	int getColumn() {
 		return y;
 	}
+    ChessPiece* getPiece(){ return piece; }
+
 
 	void translateToFieldCenter(Point3D point) {
 		boardCube.translateToTopCenterOfTopField(point);
@@ -48,7 +51,6 @@ public:
 	}
 
 	void draw(Colors::RGB color);
-
 };
 
 class ChessBoard {
@@ -71,6 +73,9 @@ public:
 	ChessBoardField* getField(CHESS_COLUMN c, CHESS_ROW r);
 	void setCubeSizes(float l, float w, float h);
 	void setBoardSizes(float l, float w, float h);
+	void unlightAllFields();
+	void highlightFields(FieldSelector fieldSelector);
+	void selectField(FieldSelector fieldSelector);
 
 	void draw();
 };
