@@ -24,7 +24,7 @@ Game::Game()
 	camera = new Camera(Point3D(x, y, z), Point3D(x, y, z), Point3D(0.0, 1.0f, 0.0));
 	chessBoard = new ChessBoard(Point3D(0.0f, 0.0f, 0.0f), 1, 1, 0.2);
 	loadDisplayLists();
-
+	fieldSelector.absoluteMove(CHESS_ROW::R_5, CHESS_COLUMN::C_D);
 	for (int i = 0; i < 8; ++i) {
 		pieces[WHITE][i] = new Pawn(R_2, (CHESS_COLUMN)i, piecesDiplayList[WHITE][PAWN], chessBoard);
 	}
@@ -177,13 +177,14 @@ void Game::mouseMove(int x, int y) {
 
 	// this will only be true when the left button is down
 	if (xOrigin >= 0) {
-
+		float radDegrees = 1.5707963268; //90
 		// update deltaAngle
+		
 		deltaAngleX = (x - xOrigin) * 0.001f;
 		deltaAngleY = (y - yOrigin) * 0.001f;
 		// update camera's direction
 		lx = sin(angleX + deltaAngleX);
-		ly = sin(angleY + deltaAngleY);
+		ly = -sin(angleY + deltaAngleY);
 		lz = -cos(angleX + deltaAngleX);
 	}
 }
@@ -192,7 +193,7 @@ void Game::mouseButton(int button, int state, int x, int y) {
 
 	// only start motion if the left button is pressed
 	if (button == GLUT_LEFT_BUTTON) {
-
+		//std::cout << x << ", " << y << std::endl;
 		// when the button is released
 		if (state == GLUT_UP) {
 			angleX += deltaAngleX;
@@ -210,16 +211,19 @@ void Game::mouseButton(int button, int state, int x, int y) {
 void Game::releaseKey(unsigned char key, int x, int y) {
 
 	switch (key) {
+	case 'r': camera->reset(); angleX = 0.0f; angleY = 0.0f; lx = 0.0f, ly = 0.0f, lz = -1.0f; break;
 	case 'w':
 	case 's': veticalDelta = 0; break;
 	}
 }
-
+float deltaHorizontal = 0;
 void Game::releaseSpecialKey(int key, int x, int y) {
 
 	switch (key) {
 	case GLUT_KEY_UP:
 	case GLUT_KEY_DOWN: deltaMove = 0; break;
+	case GLUT_KEY_RIGHT:
+	case GLUT_KEY_LEFT: deltaHorizontal = 0; break;
 	}
 }
 
@@ -235,15 +239,13 @@ void Game::specialKeyboard(int key, int x, int y) {
 		deltaMove = -0.5f;
 		break;
 	case GLUT_KEY_LEFT:
-		camera->getPosition()->moveMyself(-0.1f, 0, 0);
+		deltaHorizontal = -0.1f;
 		break;
 	case GLUT_KEY_RIGHT:
-		camera->getPosition()->moveMyself(0.1f, 0, 0);
+		deltaHorizontal = 0.1f;
 		break;
 	}
 }
-
-
 
 void Game::computePos(float deltaMove) {
 	float deltaX = deltaMove * lx * 0.1f;
@@ -280,6 +282,13 @@ void Game::displayFunc() {
 		computePos(deltaMove);
 	if (veticalDelta)
 		camera->getPlaceCameraLookingAt()->moveMyself(0, veticalDelta * 0.1, 0);
+	if (deltaHorizontal) {
+		float deltaX = deltaHorizontal * lx * 0.1f;
+		float deltaY = deltaHorizontal * ly * 0.1f;
+		float deltaZ = deltaHorizontal * lz * 0.1f;
+		camera->getPosition()->moveMyself(deltaX, 0, 0);
+		camera->getPlaceCameraLookingAt()->moveMyself(deltaX, 0, 0);
+	}
 
 	camera->lookAtWithOffset(Point3D::getEmptyPoint(), Point3D(lx, ly, lz), Point3D::getEmptyPoint());
 
@@ -324,3 +333,29 @@ void Game::reshapeFunc(int width, int height) {
 
 }
 
+void FieldSelector::move(int x, int y)
+{
+	int intX = int(this->row);
+	int intY = int(this->column);
+
+	if (intX + x > 7)
+		this->row = (CHESS_ROW)7;
+	else if (intX + x < 0)
+		this->row = (CHESS_ROW)0;
+	else
+		row = (CHESS_ROW)(intX + x);
+
+	if (intY + y > 7)
+		this->column = (CHESS_COLUMN)7;
+	else if (intY + y < 0)
+		this->column = (CHESS_COLUMN)0;
+	else
+		column = (CHESS_COLUMN)(intY + y);
+	
+}
+
+void FieldSelector::absoluteMove(CHESS_ROW x, CHESS_COLUMN y)
+{
+	this->row = x;
+	this->y = y;
+}

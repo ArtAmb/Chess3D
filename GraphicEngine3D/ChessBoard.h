@@ -44,7 +44,7 @@ public:
 
 	void translateToFieldCenter(Point3D point) {
 		boardCube.translateToTopCenterOfTopField(point);
-		highlight();
+		//highlight();
 	}
 
 	void draw(Colors::RGB color);

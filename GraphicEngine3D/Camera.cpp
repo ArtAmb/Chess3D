@@ -10,6 +10,10 @@ Camera::Camera(Point3D cameraPosition, Point3D placeCameraLookingAt, Point3D cam
 	this->cameraPosition = cameraPosition;
 	this->placeCameraLookingAt = placeCameraLookingAt;
 	this->cameraVerticalOffset = cameraVerticalOffset;
+
+	startCameraPosition = cameraPosition;
+	startPlaceCameraLookingAt = placeCameraLookingAt;
+	startCameraVerticalOffset = cameraVerticalOffset;
 }
 
 Camera::~Camera()
@@ -25,6 +29,13 @@ void Camera::lookAt()
 
 void Camera::lookAtWithOffset(Point3D cameraPositionOff, Point3D placeCameraLookingAtOff, Point3D cameraVerticalOffsetOff) {
 	lookAt(cameraPosition.move(cameraPositionOff), placeCameraLookingAt.move(placeCameraLookingAtOff), cameraVerticalOffset.move(cameraVerticalOffsetOff));
+}
+
+void Camera::reset()
+{
+	this->cameraPosition = startCameraPosition;
+	this->placeCameraLookingAt = startPlaceCameraLookingAt;
+	this->cameraVerticalOffset = startCameraVerticalOffset;
 }
 
 
