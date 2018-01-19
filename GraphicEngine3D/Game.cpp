@@ -357,5 +357,5 @@ void FieldSelector::move(int x, int y)
 void FieldSelector::absoluteMove(CHESS_ROW x, CHESS_COLUMN y)
 {
 	this->row = x;
-	this->y = y;
+	this->column = y;
 }
