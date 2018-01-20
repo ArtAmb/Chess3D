@@ -46,7 +46,7 @@ void ChessPiece::highlightPossibleMoves()
 {
 	tryToFillPossibleMoves();
 	for (int i = 0; i < possibleMoves.size(); ++i) {
-		chessBoard->getField(possibleMoves[i])->highlight();
+		highlightField(possibleMoves[i]);
 	}
 }
 
@@ -112,6 +112,15 @@ void ChessPiece::addToPossibleMoves(ChessBoardField* field)
 	if (field == NULL)
 		return;
 	possibleMoves.push_back(field->toSimpleField());
+}
+
+void ChessPiece::highlightField(SimpleChessField field)
+{
+	ChessBoardField* chessBoardField = chessBoard->getField(field);
+	if (chessBoardField->getPiece() != NULL)
+		chessBoardField->highlight(Colors::RED);
+	else
+		chessBoardField->highlight();
 }
 
 void ChessPiece::resetPossibleMoves()

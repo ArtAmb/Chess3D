@@ -99,10 +99,12 @@ void Engine3D::mouseMotionFunc(void(*moveMotion)(int, int)) {
 
 void Engine3D::displayText(float x, float y, Colors::RGB color, std::string string) {
 	glColor3f(color.getR(), color.getG(), color.getB());
+	glPushMatrix();
 	glRasterPos2f(x, y);
 	for (unsigned int i = 0; i < string.length(); i++) {
 		glutBitmapCharacter(GLUT_BITMAP_TIMES_ROMAN_10, string[i]);
 	}
+	glPopMatrix();
 }
 
 

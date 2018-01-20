@@ -13,6 +13,7 @@ protected:
 	void fillPossibleMovesForRook();
 	void fillPossibleMovesForBishop();
 	void addToPossibleMoves(ChessBoardField* field);
+	void highlightField(SimpleChessField field);
 	void resetPossibleMoves();
 	void tryToFillPossibleMoves();
 	virtual void fillPossibleMoves() = 0;

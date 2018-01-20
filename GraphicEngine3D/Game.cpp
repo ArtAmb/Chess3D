@@ -227,6 +227,12 @@ void Game::releaseKey(unsigned char key, int x, int y)
 
     switch (key)
     {
+	case 'i':
+		std::cout << camera->getPosition()->toString() << std::endl
+			<< camera->getPlaceCameraLookingAt()->toString() << std::endl
+			<< camera->getVerticalOffset()->toString() << std::endl
+			<< angleX << ", " << angleY << std::endl;
+		break;
 	case ' ':
 		chessBoard->selectField(&fieldSelector);
 		break;
@@ -317,7 +323,7 @@ void Game::displayFunc()
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     glMatrixMode(GL_MODELVIEW);
     glLoadIdentity();
-	//engine->displayText(-2, 0, Colors::RED, "cameraPosition: " + camera->getPosition()->toString());
+	engine->displayText(0, 0, Colors::RED, "cameraPosition: " + camera->getPosition()->toString());
 	//engine->displayText(-2, 0.1, Colors::RED, "placeCameraLookingAt: " + camera->getPlaceCameraLookingAt()->toString());
 	//engine->displayText(-2, 0.2, Colors::RED, "cameraVerticalOffset: " + camera->getVerticalOffset()->toString());
 	//std::cout << "cameraPosition: "<< camera->getPosition()->toString() << std::endl;
@@ -337,8 +343,7 @@ void Game::displayFunc()
 
     //Engine3D* e = Engine3DLoader::getEngine();
     //e->glBegin(GL_LINES)->glVertex3f(0, 0, -5)->glVertex3f(2, 2, -5)->glEnd();
-
-    
+	   
 
     //glRotatef(_cameraangle, 0.0f, 1.0f, 0.0f);
     chessBoard->unlightAllFields();
@@ -352,15 +357,6 @@ void Game::displayFunc()
     glPopMatrix();
 
     drawChessPieces();
-
-    /*glPushMatrix();
-    settingMatrixProperly();
-    engine->glColor(Colors::RED);
-    //chessBoard->getField(C_E, R_6)->translateToFieldCenter(Point3D(0, 0, 0));
-    //drawPawn();
-    glPopMatrix();*/
-    //Engine3DLoader::getEngine()->drawLoadedModels();
-
 
     //glFlush();
     glutSwapBuffers();

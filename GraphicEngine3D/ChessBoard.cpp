@@ -88,7 +88,7 @@ bool ChessBoardField::checkPieceColor(PLAYER_COLOR chessColor) {
 
 void ChessBoardField::draw(Colors::RGB color) {
 	if (highlighted)
-		boardCube.draw(color, Colors::GREEN);
+		boardCube.draw(color, highlightColor);
 	else
 		boardCube.draw(color);
 }
@@ -125,12 +125,11 @@ void ChessBoard::unlightAllFields() {
 
 void ChessBoard::highlightFields(FieldSelector fieldSelector) {
 	ChessBoardField* field = &board[fieldSelector.getRow()][fieldSelector.getColumn()];
-	field->highlight();
 
 	if (fieldSelector.getSavedPiece() != NULL) {
 		fieldSelector.getSavedPiece()->highlightPossibleMoves();
 	}
-
+	field->highlight(Colors::YELLOW);
 }
 void ChessBoard::updateCurrentPlayer(bool isChangeNeeded) {
 	if (isChangeNeeded) {
@@ -149,7 +148,7 @@ void ChessBoard::selectField(FieldSelector* fieldSelector) {
 	}
 
 	if (!fieldSelector->isSelected()) {
-		if (field->getPiece() != NULL) {
+		if (field->getPiece() != NULL && field->getPiece()->getColor() == currPlayer) {
 			fieldSelector->select(field->getPiece());
 			return;
 		}

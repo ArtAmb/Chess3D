@@ -15,6 +15,7 @@ private:
 	ChessPiece* piece = NULL;
 	Rectangle3D boardCube;
 	bool highlighted = false;
+	Colors::RGB highlightColor = Colors::GREEN;
 public:
 	~ChessBoardField() {
 
@@ -33,6 +34,12 @@ public:
 	bool checkPieceColor(PLAYER_COLOR chessColor);
 
 	void highlight() {
+		highlightColor = Colors::GREEN;
+		highlighted = true;
+	}
+
+	void highlight(Colors::RGB color) {
+		highlightColor = color;
 		highlighted = true;
 	}
 
