@@ -8,16 +8,9 @@ Rook::Rook(CHESS_ROW r, CHESS_COLUMN col, int listId, ChessBoard* chessBoard, PL
     init(r, col, listId, chessBoard, chessColor);
 }
 
-bool Rook::checkNextMove(ChessBoardField field)
+void Rook::fillPossibleMoves()
 {
-    return false;
-}
-void Rook::move(ChessBoardField field)
-{
-}
-
-void Rook::highlightPossibleMoves()
-{
+	fillPossibleMovesForRook();
 }
 
 Rook::~Rook()

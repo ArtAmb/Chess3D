@@ -6,14 +6,15 @@
 #include "GlutHeader.h"
 #include "Engine3D.h"
 #include "FieldSelector.h"
-
+#include "SimpleChessField.h"
+#include "Pawn.h"
 class ChessBoardField {
 private:
 	CHESS_ROW x;
 	CHESS_COLUMN y;
 	ChessPiece* piece = NULL;
 	Rectangle3D boardCube;
-	bool isHighlighted = false;
+	bool highlighted = false;
 public:
 	~ChessBoardField() {
 
@@ -27,52 +28,73 @@ public:
 		this->boardCube = boardCube;
 	}
 
-	int getRow() {
-		return x;
-	}
+	SimpleChessField toSimpleField() { return SimpleChessField(x, y); }
+	bool isPossibleToMoveHere(PLAYER_COLOR color);
+	bool checkPieceColor(PLAYER_COLOR chessColor);
 
 	void highlight() {
-		isHighlighted = true;
+		highlighted = true;
 	}
 
 	void stopHighliting() {
-		isHighlighted = false;
+		highlighted = false;
 	}
 
-	int getColumn() {
+	bool isHighlighted() {
+		return highlighted;
+	}
+
+	CHESS_COLUMN getColumn() {
 		return y;
 	}
+
+	CHESS_ROW getRow() {
+		return x;
+	}
+
+	bool isEmpty() {
+		return piece == NULL;
+	}
+
+	void empty() {
+		piece = NULL;
+	}
+
 	void setPiece(ChessPiece* piece) { this->piece = piece; }
     ChessPiece* getPiece(){ return piece; }
 
-
 	void translateToFieldCenter(Point3D point) {
 		boardCube.translateToTopCenterOfTopField(point);
-		//highlight();
 	}
 
 	void draw(Colors::RGB color);
 };
 
 class ChessBoard {
+	std::vector<Pawn*> enPassantPawns;
+	PLAYER_COLOR currPlayer = WHITE;
 	const static int BOARD_SIZE = 8;
 	ChessBoardField board[BOARD_SIZE][BOARD_SIZE];
 
 	Point3D startPoint;
 	float cubeL, cubeW, cubeH;
 	float boardL, boardW, boardH;
-
 	void initBoard();
+	void disableEnPassantPawns();
 public:
+	void addEnPassantPawns(Pawn* pawn);
+	void tryToKillEnPassantPawn(SimpleChessField field);
 	ChessBoard();
 	ChessBoard(Point3D, float cubeL, float cubeW, float cubeH);
 	~ChessBoard();
 
 	Point3D getStartPoint() { return startPoint; }
-
+	void updateCurrentPlayer(bool isChangeNeeded);
 
 	ChessBoardField* getField(CHESS_COLUMN c, CHESS_ROW r);
-	ChessBoardField* ChessBoard::getField(int column, int row);
+	ChessBoardField* getField(int column, int row);
+	ChessBoardField* getField(SimpleChessField field);
+
 	void setCubeSizes(float l, float w, float h);
 	void setBoardSizes(float l, float w, float h);
 	void unlightAllFields();

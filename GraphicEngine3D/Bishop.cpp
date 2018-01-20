@@ -9,15 +9,6 @@ Bishop::Bishop(CHESS_ROW r, CHESS_COLUMN col, int listId, ChessBoard* chessBoard
 
 Bishop::~Bishop()
 {
-    //dtor
-}
-
-bool Bishop::checkNextMove(ChessBoardField field)
-{
-	return true;
-}
-void Bishop::move(ChessBoardField field)
-{
 }
 
 void drawChessBishopPhillar(int howMany, float delta, float transalteDelta){
@@ -48,6 +39,7 @@ void Bishop::drawBishop(Colors::RGB color){
 
 }
 
-void Bishop::highlightPossibleMoves()
+void Bishop::fillPossibleMoves()
 {
+	fillPossibleMovesForBishop();
 }

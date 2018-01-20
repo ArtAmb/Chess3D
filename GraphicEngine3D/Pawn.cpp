@@ -15,72 +15,52 @@ Pawn::Pawn(CHESS_ROW r, CHESS_COLUMN col, int listId, ChessBoard* chessBoard, PL
 	init(r, col, listId, chessBoard, chessColor);
 }
 
-bool Pawn::checkNextMove(ChessBoardField field) {
-
-	return true;
-}
-void Pawn::move(ChessBoardField field) {
+void Pawn::move(ChessBoardField* field) {
 	if (firstMoveAvailable) {
 		firstMoveAvailable = false;
 	}	
-	if (enPasantAvailable) {
-		enPasantAvailable = false;
+	if ((row - field->getRow()) % 2 == 0) {
+		int deltaRow = (chessColor == WHITE ? 1 : -1);
+		oldColumn = column;
+		oldRow = CHESS_ROW(row + deltaRow);
+		chessBoard->addEnPassantPawns(this);
 	}
-	if ((row - field.getRow()) % 2 == 0) {
-		enPasantAvailable = true;
+	ChessPiece::move(field);
+	chessBoard->tryToKillEnPassantPawn(field->toSimpleField());
+}
+
+void Pawn::fillPossibleMovesForPawn(int deltaRow)
+{
+	if(chessBoard->getField(column, row + deltaRow) && chessBoard->getField(column, row + deltaRow)->isEmpty())
+		addToPossibleMoves(chessBoard->getField(column, row + deltaRow));
+
+	if (firstMoveAvailable && chessBoard->getField(column, row + deltaRow)->isEmpty() && chessBoard->getField(column, row + 2*deltaRow)->isEmpty())
+		addToPossibleMoves(chessBoard->getField(column, row + 2*deltaRow));
+
+	if (chessBoard->getField(column - 1, row + deltaRow) && !chessBoard->getField(column - 1, row + deltaRow)->isEmpty() && !chessBoard->getField(column - 1, row + deltaRow)->checkPieceColor(chessColor))
+		addToPossibleMoves(chessBoard->getField(column - 1, row + deltaRow));
+	if (chessBoard->getField(column + 1, row + deltaRow) && !chessBoard->getField(column + 1, row + deltaRow)->isEmpty() && !chessBoard->getField(column + 1, row + deltaRow)->checkPieceColor(chessColor))
+		addToPossibleMoves(chessBoard->getField(column + 1, row + deltaRow));
+
+	fillPossibleMovesForEnPasant(1, deltaRow);
+	fillPossibleMovesForEnPasant(-1, deltaRow);
+}
+
+void Pawn::fillPossibleMovesForEnPasant(int deltaColumn, int deltaRow) {
+	if (chessBoard->getField(column + deltaColumn, row + deltaRow) && !chessBoard->getField(column + deltaColumn, row)->isEmpty()) {
+		if (dynamic_cast<Pawn*>(chessBoard->getField(column + deltaColumn, row)->getPiece()) != NULL)
+			if (dynamic_cast<Pawn*>(chessBoard->getField(column + deltaColumn, row)->getPiece())->isEnPasantAvailable())
+				addToPossibleMoves(chessBoard->getField(column + deltaColumn, row + deltaRow));
 	}
 }
 
-void Pawn::highlightPossibleMoves() {
-	chessBoard->getField(column, row)->highlight();
-
+void Pawn::fillPossibleMoves()
+{
 	if (chessColor == BLACK) {
-		chessBoard->getField(column, row - 1)->highlight();
-		if(firstMoveAvailable)
-			chessBoard->getField(column, row - 1)->highlight();
-
-		if (chessBoard->getField(column - 1, row - 1)->getPiece() != NULL)
-			chessBoard->getField(column - 1, row - 1)->highlight();
-		if (chessBoard->getField(column + 1, row - 1)->getPiece() != NULL)
-			chessBoard->getField(column + 1, row - 1)->highlight();
-
-		if (chessBoard->getField(column + 1, row)->getPiece() != NULL) {
-			if (dynamic_cast<Pawn*>(chessBoard->getField(column + 1, row)->getPiece()) != NULL)
-				if (dynamic_cast<Pawn*>(chessBoard->getField(column + 1, row)->getPiece())->isEnPasantAvailable())
-					chessBoard->getField(column + 1, row - 1)->highlight();
-		}
-
-		if (chessBoard->getField(column - 1, row)->getPiece() != NULL) {
-			if (dynamic_cast<Pawn*>(chessBoard->getField(column - 1, row)->getPiece()) != NULL)
-				if (dynamic_cast<Pawn*>(chessBoard->getField(column - 1, row)->getPiece())->isEnPasantAvailable())
-					chessBoard->getField(column - 1, row - 1)->highlight();
-		}
-
-		return;
+		fillPossibleMovesForPawn(-1);
 	}
 	if (chessColor == WHITE) {
-		chessBoard->getField(column, row + 1)->highlight();
-		if (firstMoveAvailable)
-			chessBoard->getField(column, row + 1)->highlight();
-
-		if (chessBoard->getField(column - 1, row + 1)->getPiece() != NULL)
-			chessBoard->getField(column - 1, row + 1)->highlight();
-		if (chessBoard->getField(column + 1, row + 1)->getPiece() != NULL)
-			chessBoard->getField(column + 1, row + 1)->highlight();
-
-		if (chessBoard->getField(column + 1, row)->getPiece() != NULL ) {
-			if (dynamic_cast<Pawn*>(chessBoard->getField(column + 1, row)->getPiece()) != NULL)
-				if (dynamic_cast<Pawn*>(chessBoard->getField(column + 1, row)->getPiece())->isEnPasantAvailable())
-					chessBoard->getField(column + 1, row + 1)->highlight();
-		}
-
-		if (chessBoard->getField(column - 1, row)->getPiece() != NULL) {
-			if (dynamic_cast<Pawn*>(chessBoard->getField(column - 1, row)->getPiece()) != NULL)
-				if (dynamic_cast<Pawn*>(chessBoard->getField(column - 1, row)->getPiece())->isEnPasantAvailable())
-					chessBoard->getField(column - 1, row + 1)->highlight();
-		}
-
-		return;
+		fillPossibleMovesForPawn(1);
 	}
 }
 

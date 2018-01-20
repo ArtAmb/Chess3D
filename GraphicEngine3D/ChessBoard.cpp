@@ -20,6 +20,41 @@ void ChessBoard::initBoard() {
 	}
 }
 
+void ChessBoard::disableEnPassantPawns()
+{
+	if (enPassantPawns.size() == 0)
+		return;
+
+	for (int i = 0; i < enPassantPawns.size(); ) {
+		if (!enPassantPawns[i]->isEnPasantAvailable()) {
+			enPassantPawns[i]->enableEnPasant();
+		}
+		else {
+			enPassantPawns[i]->disableEnPasant();
+			enPassantPawns.erase(enPassantPawns.begin() + i);
+			continue;
+		}
+		++i;
+	}
+
+}
+
+void ChessBoard::tryToKillEnPassantPawn(SimpleChessField field) {
+	if (enPassantPawns.size() == 0)
+		return;
+
+	for (int i = 0; i < enPassantPawns.size(); ++i) {
+		if (enPassantPawns[i]->isEnPasantAvailable() && enPassantPawns[i]->getOldField() == field) {
+			enPassantPawns[i]->die();
+		}
+	}
+}
+
+void ChessBoard::addEnPassantPawns(Pawn * pawn)
+{
+	enPassantPawns.push_back(pawn);
+}
+
 void ChessBoard::setCubeSizes(float l, float w, float h) {
 	cubeL = l;
 	cubeW = w;
@@ -42,8 +77,17 @@ void ChessBoard::setBoardSizes(float l, float w, float h) {
 	initBoard();
 }
 
+bool ChessBoardField::isPossibleToMoveHere(PLAYER_COLOR color) {
+	return isEmpty() || !checkPieceColor(color);
+}
+
+bool ChessBoardField::checkPieceColor(PLAYER_COLOR chessColor) {
+	if (isEmpty()) return false;
+	return getPiece()->getColor() == chessColor;
+}
+
 void ChessBoardField::draw(Colors::RGB color) {
-	if (isHighlighted)
+	if (highlighted)
 		boardCube.draw(color, Colors::GREEN);
 	else
 		boardCube.draw(color);
@@ -62,35 +106,58 @@ ChessBoardField* ChessBoard::getField(CHESS_COLUMN c, CHESS_ROW r) {
 }
 
 ChessBoardField* ChessBoard::getField(int column, int row) {
+	if (column < 0 || column >= BOARD_SIZE || row < 0 || row >= BOARD_SIZE)
+		return NULL;
 	return &board[row][column];
 }
 
-void ChessBoard::unlightAllFields(){
-    for (int i = 0; i < BOARD_SIZE; ++i) {
+ChessBoardField * ChessBoard::getField(SimpleChessField field) {
+	return getField(field.getColumn(), field.getRow());
+}
+
+void ChessBoard::unlightAllFields() {
+	for (int i = 0; i < BOARD_SIZE; ++i) {
 		for (int j = 0; j < BOARD_SIZE; ++j) {
 			board[i][j].stopHighliting();
 		}
 	}
 }
 
-void ChessBoard::highlightFields(FieldSelector fieldSelector){
-    ChessBoardField* field = &board[fieldSelector.getRow()][fieldSelector.getColumn()];
-    field->highlight();
+void ChessBoard::highlightFields(FieldSelector fieldSelector) {
+	ChessBoardField* field = &board[fieldSelector.getRow()][fieldSelector.getColumn()];
+	field->highlight();
 
-    if(fieldSelector.getSavedPiece() != NULL){
+	if (fieldSelector.getSavedPiece() != NULL) {
 		fieldSelector.getSavedPiece()->highlightPossibleMoves();
-    }
+	}
 
 }
+void ChessBoard::updateCurrentPlayer(bool isChangeNeeded) {
+	if (isChangeNeeded) {
+		currPlayer = (currPlayer == WHITE ? BLACK : WHITE);
+		disableEnPassantPawns();
+	}
 
-void ChessBoard::selectField(FieldSelector* fieldSelector){
-    ChessBoardField* field = getField(fieldSelector->getColumn(), fieldSelector->getRow());
-    
-	if (field->getPiece() == NULL && fieldSelector->getSavedPiece() != NULL) {
+}
+void ChessBoard::selectField(FieldSelector* fieldSelector) {
+	ChessBoardField* field = getField(fieldSelector->getColumn(), fieldSelector->getRow());
+
+	if (fieldSelector->isSelected()) {
+		updateCurrentPlayer(fieldSelector->getSavedPiece()->tryToMove(field));
 		fieldSelector->unselect();
+		return;
 	}
 
-    if(field->getPiece() != NULL){
-        fieldSelector->select(field->getPiece());
+	if (!fieldSelector->isSelected()) {
+		if (field->getPiece() != NULL) {
+			fieldSelector->select(field->getPiece());
+			return;
+		}
+		if (field->getPiece() == NULL) {
+			return;
+		}
 	}
+
+
+
 }

@@ -5,7 +5,7 @@
 class FieldSelector {
 	CHESS_ROW row;
 	CHESS_COLUMN column;
-	bool isSelected;
+	bool selected;
 	ChessPiece* savedPiece = NULL;
 public:
 	FieldSelector() {};
@@ -13,9 +13,10 @@ public:
 	void move(int x, int y);
 	CHESS_ROW getRow() { return row; }
 	CHESS_COLUMN getColumn() { return column; };
-	void select() { isSelected = true; }
-	void select(ChessPiece* piece) { savedPiece = piece; }
-    void unselect(){ isSelected = false; savedPiece = NULL; }
+	void select() { selected = true; }
+	void select(ChessPiece* piece) { selected = true; savedPiece = piece; }
+	void unselect(); 
+	bool isSelected() { return selected; }
 	void absoluteMove(CHESS_ROW x, CHESS_COLUMN y);
 	ChessPiece* getSavedPiece() { return savedPiece; }
 };

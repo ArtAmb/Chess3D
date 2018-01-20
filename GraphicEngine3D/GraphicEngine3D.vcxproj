@@ -173,6 +173,7 @@
     <ClCompile Include="Rectangle3D.cpp" />
     <ClCompile Include="RGB.cpp" />
     <ClCompile Include="Rook.cpp" />
+    <ClCompile Include="SimpleChessField.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Bishop.h" />
@@ -194,6 +195,7 @@
     <ClInclude Include="Rectangle3D.h" />
     <ClInclude Include="RGB.h" />
     <ClInclude Include="Rook.h" />
+    <ClInclude Include="SimpleChessField.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="ClassDiagram.cd" />

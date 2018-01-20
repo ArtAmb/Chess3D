@@ -103,7 +103,6 @@ void Game::loadDisplayLists()
     piecesDiplayList[BLACK][KNIGHT] = glGenLists(++i);
     glNewList(piecesDiplayList[BLACK][KNIGHT], GL_COMPILE);
     Knight::drawRotatingKnight(blackColor,90);
-    //Knight::drawKnight(blackColor);
     glEndList();
 
     piecesDiplayList[WHITE][QUEEN] = glGenLists(++i);
@@ -186,8 +185,7 @@ void Game::keyboardFunc(unsigned char key, int x, int y)
 
 void Game::mouseMove(int x, int y)
 {
-
-    // this will only be true when the left button is down
+	// this will only be true when the left button is down
     if (xOrigin >= 0)
     {
 
