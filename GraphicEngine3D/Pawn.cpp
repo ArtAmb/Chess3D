@@ -11,8 +11,8 @@ Pawn::~Pawn()
 {
 }
 
-Pawn::Pawn(CHESS_ROW r, CHESS_COLUMN col, int listId, ChessBoard* chessBoard) {
-	init(r, col, listId, chessBoard);
+Pawn::Pawn(CHESS_ROW r, CHESS_COLUMN col, int listId, ChessBoard* chessBoard, PLAYER_COLOR chessColor) {
+	init(r, col, listId, chessBoard, chessColor);
 }
 
 bool Pawn::checkNextMove(ChessBoardField field) {
@@ -20,11 +20,68 @@ bool Pawn::checkNextMove(ChessBoardField field) {
 	return true;
 }
 void Pawn::move(ChessBoardField field) {
-
+	if (firstMoveAvailable) {
+		firstMoveAvailable = false;
+	}	
+	if (enPasantAvailable) {
+		enPasantAvailable = false;
+	}
+	if ((row - field.getRow()) % 2 == 0) {
+		enPasantAvailable = true;
+	}
 }
 
 void Pawn::highlightPossibleMoves() {
+	chessBoard->getField(column, row)->highlight();
 
+	if (chessColor == BLACK) {
+		chessBoard->getField(column, row - 1)->highlight();
+		if(firstMoveAvailable)
+			chessBoard->getField(column, row - 1)->highlight();
+
+		if (chessBoard->getField(column - 1, row - 1)->getPiece() != NULL)
+			chessBoard->getField(column - 1, row - 1)->highlight();
+		if (chessBoard->getField(column + 1, row - 1)->getPiece() != NULL)
+			chessBoard->getField(column + 1, row - 1)->highlight();
+
+		if (chessBoard->getField(column + 1, row)->getPiece() != NULL) {
+			if (dynamic_cast<Pawn*>(chessBoard->getField(column + 1, row)->getPiece()) != NULL)
+				if (dynamic_cast<Pawn*>(chessBoard->getField(column + 1, row)->getPiece())->isEnPasantAvailable())
+					chessBoard->getField(column + 1, row - 1)->highlight();
+		}
+
+		if (chessBoard->getField(column - 1, row)->getPiece() != NULL) {
+			if (dynamic_cast<Pawn*>(chessBoard->getField(column - 1, row)->getPiece()) != NULL)
+				if (dynamic_cast<Pawn*>(chessBoard->getField(column - 1, row)->getPiece())->isEnPasantAvailable())
+					chessBoard->getField(column - 1, row - 1)->highlight();
+		}
+
+		return;
+	}
+	if (chessColor == WHITE) {
+		chessBoard->getField(column, row + 1)->highlight();
+		if (firstMoveAvailable)
+			chessBoard->getField(column, row + 1)->highlight();
+
+		if (chessBoard->getField(column - 1, row + 1)->getPiece() != NULL)
+			chessBoard->getField(column - 1, row + 1)->highlight();
+		if (chessBoard->getField(column + 1, row + 1)->getPiece() != NULL)
+			chessBoard->getField(column + 1, row + 1)->highlight();
+
+		if (chessBoard->getField(column + 1, row)->getPiece() != NULL ) {
+			if (dynamic_cast<Pawn*>(chessBoard->getField(column + 1, row)->getPiece()) != NULL)
+				if (dynamic_cast<Pawn*>(chessBoard->getField(column + 1, row)->getPiece())->isEnPasantAvailable())
+					chessBoard->getField(column + 1, row + 1)->highlight();
+		}
+
+		if (chessBoard->getField(column - 1, row)->getPiece() != NULL) {
+			if (dynamic_cast<Pawn*>(chessBoard->getField(column - 1, row)->getPiece()) != NULL)
+				if (dynamic_cast<Pawn*>(chessBoard->getField(column - 1, row)->getPiece())->isEnPasantAvailable())
+					chessBoard->getField(column - 1, row + 1)->highlight();
+		}
+
+		return;
+	}
 }
 
 void Pawn::drawPawn(Colors::RGB color) {

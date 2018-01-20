@@ -6,21 +6,24 @@ ChessPiece::ChessPiece()
 {
 }
 
-ChessPiece::ChessPiece(CHESS_ROW r, CHESS_COLUMN col, int listId, ChessBoard* chessBoard) {
-	init(r, col, listId, chessBoard);
+ChessPiece::ChessPiece(CHESS_ROW r, CHESS_COLUMN col, int listId, ChessBoard* chessBoard, PLAYER_COLOR chessColor) {
+	init(r, col, listId, chessBoard, chessColor);
 }
 
 void ChessPiece::draw()
 {
 	chessBoard->getField(column, row)->translateToFieldCenter(Point3D(0, 0, 0));
+	glRotated(-90, 0, 0, 1);
 	glCallList(listId);
 }
 
-void ChessPiece::init(CHESS_ROW r, CHESS_COLUMN col, int listId, ChessBoard* chessBoard) {
+void ChessPiece::init(CHESS_ROW r, CHESS_COLUMN col, int listId, ChessBoard* chessBoard, PLAYER_COLOR chessColor) {
 	this->row = r;
 	this->column = col;
 	this->listId = listId;
 	this->chessBoard = chessBoard;
+	this->chessColor = chessColor;
+	this->chessBoard->getField(col, r)->setPiece(this);
 }
 
 ChessPiece::~ChessPiece()

@@ -10,8 +10,8 @@ Queen::~Queen()
 {
 }
 
-Queen::Queen(CHESS_ROW r, CHESS_COLUMN col, int listId, ChessBoard* chessBoard) {
-	init(r, col, listId, chessBoard);
+Queen::Queen(CHESS_ROW r, CHESS_COLUMN col, int listId, ChessBoard* chessBoard, PLAYER_COLOR chessColor) {
+	init(r, col, listId, chessBoard, chessColor);
 }
 
 bool Queen::checkNextMove(ChessBoardField field) {

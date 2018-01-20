@@ -27,37 +27,37 @@ Game::Game()
     fieldSelector.absoluteMove(CHESS_ROW::R_5, CHESS_COLUMN::C_D);
     for (int i = 0; i < 8; ++i)
     {
-        pieces[WHITE][i] = new Pawn(R_2, (CHESS_COLUMN)i, piecesDiplayList[WHITE][PAWN], chessBoard);
+        pieces[WHITE][i] = new Pawn(R_2, (CHESS_COLUMN)i, piecesDiplayList[WHITE][PAWN], chessBoard, WHITE);
     }
 
     for (int i = 0; i < 8; ++i)
     {
-        pieces[BLACK][i] = new Pawn(R_7, (CHESS_COLUMN)i, piecesDiplayList[BLACK][PAWN], chessBoard);
+        pieces[BLACK][i] = new Pawn(R_7, (CHESS_COLUMN)i, piecesDiplayList[BLACK][PAWN], chessBoard, BLACK);
     }
 
-    pieces[WHITE][8] = new Bishop(R_1, C_C, piecesDiplayList[WHITE][BISHOP], chessBoard);
-    pieces[WHITE][9] = new Bishop(R_1, C_F, piecesDiplayList[WHITE][BISHOP], chessBoard);
+    pieces[WHITE][8] = new Bishop(R_1, C_C, piecesDiplayList[WHITE][BISHOP], chessBoard, WHITE);
+    pieces[WHITE][9] = new Bishop(R_1, C_F, piecesDiplayList[WHITE][BISHOP], chessBoard, WHITE);
 
-    pieces[BLACK][8] = new Bishop(R_8, C_C, piecesDiplayList[BLACK][BISHOP], chessBoard);
-    pieces[BLACK][9] = new Bishop(R_8, C_F, piecesDiplayList[BLACK][BISHOP], chessBoard);
+    pieces[BLACK][8] = new Bishop(R_8, C_C, piecesDiplayList[BLACK][BISHOP], chessBoard, BLACK);
+    pieces[BLACK][9] = new Bishop(R_8, C_F, piecesDiplayList[BLACK][BISHOP], chessBoard, BLACK);
 
-    pieces[WHITE][10] = new Rook(R_1, C_A, piecesDiplayList[WHITE][TOWER], chessBoard);
-    pieces[WHITE][11] = new Rook(R_1, C_H, piecesDiplayList[WHITE][TOWER], chessBoard);
+    pieces[WHITE][10] = new Rook(R_1, C_A, piecesDiplayList[WHITE][TOWER], chessBoard, WHITE);
+    pieces[WHITE][11] = new Rook(R_1, C_H, piecesDiplayList[WHITE][TOWER], chessBoard, WHITE);
 
-    pieces[BLACK][10] = new Rook(R_8, C_A, piecesDiplayList[BLACK][TOWER], chessBoard);
-    pieces[BLACK][11] = new Rook(R_8, C_H, piecesDiplayList[BLACK][TOWER], chessBoard);
+    pieces[BLACK][10] = new Rook(R_8, C_A, piecesDiplayList[BLACK][TOWER], chessBoard, BLACK);
+    pieces[BLACK][11] = new Rook(R_8, C_H, piecesDiplayList[BLACK][TOWER], chessBoard, BLACK);
 
-    pieces[WHITE][12] = new Knight(R_1, C_B, piecesDiplayList[WHITE][KNIGHT], chessBoard);
-    pieces[WHITE][13] = new Knight(R_1, C_G, piecesDiplayList[WHITE][KNIGHT], chessBoard);
+    pieces[WHITE][12] = new Knight(R_1, C_B, piecesDiplayList[WHITE][KNIGHT], chessBoard, WHITE);
+    pieces[WHITE][13] = new Knight(R_1, C_G, piecesDiplayList[WHITE][KNIGHT], chessBoard, WHITE);
 
-    pieces[BLACK][12] = new Knight(R_8, C_B, piecesDiplayList[BLACK][KNIGHT], chessBoard);
-    pieces[BLACK][13] = new Knight(R_8, C_G, piecesDiplayList[BLACK][KNIGHT], chessBoard);
+    pieces[BLACK][12] = new Knight(R_8, C_B, piecesDiplayList[BLACK][KNIGHT], chessBoard, BLACK);
+    pieces[BLACK][13] = new Knight(R_8, C_G, piecesDiplayList[BLACK][KNIGHT], chessBoard, BLACK);
 
-    pieces[WHITE][14] = new Queen(R_1, C_D, piecesDiplayList[WHITE][QUEEN], chessBoard);
-    pieces[BLACK][14] = new Queen(R_8, C_D, piecesDiplayList[BLACK][QUEEN], chessBoard);
+    pieces[WHITE][14] = new Queen(R_1, C_D, piecesDiplayList[WHITE][QUEEN], chessBoard, WHITE);
+    pieces[BLACK][14] = new Queen(R_8, C_D, piecesDiplayList[BLACK][QUEEN], chessBoard, BLACK);
 
-    pieces[WHITE][15] = new King(R_1, C_E, piecesDiplayList[WHITE][KING], chessBoard);
-    pieces[BLACK][15] = new King(R_8, C_E, piecesDiplayList[BLACK][KING], chessBoard);
+    pieces[WHITE][15] = new King(R_1, C_E, piecesDiplayList[WHITE][KING], chessBoard, WHITE);
+    pieces[BLACK][15] = new King(R_8, C_E, piecesDiplayList[BLACK][KING], chessBoard, BLACK);
 }
 
 void Game::loadDisplayLists()
@@ -175,10 +175,10 @@ void Game::keyboardFunc(unsigned char key, int x, int y)
     case 'e':
         veticalDelta = -0.5;
         break;
-    case 'w': fieldSelector.move(0,-1); break;
-    case 's': fieldSelector.move(0,1); break;
-    case 'a': fieldSelector.move(-1,0); break;
-    case 'd': fieldSelector.move(1,0); break;
+    case 'w': fieldSelector.move(-1,0); break;
+    case 's': fieldSelector.move(1,0); break;
+    case 'a': fieldSelector.move(0,1); break;
+    case 'd': fieldSelector.move(0,-1); break;
     case 27:
         exit(0);
     }
@@ -229,14 +229,17 @@ void Game::releaseKey(unsigned char key, int x, int y)
 
     switch (key)
     {
+	case ' ':
+		chessBoard->selectField(&fieldSelector);
+		break;
     case 'r':
         camera->reset();
         angleX = 0.0f;
         angleY = 0.0f;
         lx = 0.0f, ly = 0.0f, lz = -1.0f;
         break;
-    case 'w':
-    case 's':
+    case 'q':
+    case 'e':
         veticalDelta = 0;
         break;
     }
@@ -255,8 +258,6 @@ void Game::releaseSpecialKey(int key, int x, int y)
     case GLUT_KEY_LEFT:
         deltaHorizontal = 0;
         break;
-    case GLUT_KEY_F1:
-        chessBoard->selectField(fieldSelector);
     }
 }
 
@@ -308,7 +309,8 @@ void drawChessPhillar(int howMany, float delta)
 void Game::settingMatrixProperly()
 {
     glScalef(2.0f, 2.0f, 2.0f);
-    glRotatef(90, 1.0f, 0, 0);
+    glRotatef(90, 1.0, 0, 0);
+	glRotatef(90, 0, 0, 1.0f);
 }
 
 void Game::displayFunc()
@@ -317,8 +319,10 @@ void Game::displayFunc()
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     glMatrixMode(GL_MODELVIEW);
     glLoadIdentity();
-
-
+	//engine->displayText(-2, 0, Colors::RED, "cameraPosition: " + camera->getPosition()->toString());
+	//engine->displayText(-2, 0.1, Colors::RED, "placeCameraLookingAt: " + camera->getPlaceCameraLookingAt()->toString());
+	//engine->displayText(-2, 0.2, Colors::RED, "cameraVerticalOffset: " + camera->getVerticalOffset()->toString());
+	//std::cout << "cameraPosition: "<< camera->getPosition()->toString() << std::endl;
     if (deltaMove)
         computePos(deltaMove);
     if (veticalDelta)
@@ -336,9 +340,7 @@ void Game::displayFunc()
     //Engine3D* e = Engine3DLoader::getEngine();
     //e->glBegin(GL_LINES)->glVertex3f(0, 0, -5)->glVertex3f(2, 2, -5)->glEnd();
 
-    //engine->displayText(-2, 0, Colors::RED, "cameraPosition: " + camera->getPosition()->toString());
-    //engine->displayText(-2, 0.1, Colors::RED, "placeCameraLookingAt: " + camera->getPlaceCameraLookingAt()->toString());
-    //engine->displayText(-2, 0.2, Colors::RED, "cameraVerticalOffset: " + camera->getVerticalOffset()->toString());
+    
 
     //glRotatef(_cameraangle, 0.0f, 1.0f, 0.0f);
     chessBoard->unlightAllFields();

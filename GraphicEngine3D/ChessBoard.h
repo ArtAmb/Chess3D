@@ -42,6 +42,7 @@ public:
 	int getColumn() {
 		return y;
 	}
+	void setPiece(ChessPiece* piece) { this->piece = piece; }
     ChessPiece* getPiece(){ return piece; }
 
 
@@ -71,11 +72,12 @@ public:
 
 
 	ChessBoardField* getField(CHESS_COLUMN c, CHESS_ROW r);
+	ChessBoardField* ChessBoard::getField(int column, int row);
 	void setCubeSizes(float l, float w, float h);
 	void setBoardSizes(float l, float w, float h);
 	void unlightAllFields();
 	void highlightFields(FieldSelector fieldSelector);
-	void selectField(FieldSelector fieldSelector);
+	void selectField(FieldSelector* fieldSelector);
 
 	void draw();
 };

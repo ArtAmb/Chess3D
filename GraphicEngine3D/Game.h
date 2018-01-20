@@ -3,9 +3,9 @@
 #include "ChessBoard.h"
 #include "Camera.h"
 #include "FieldSelector.h"
+#include "ChessEnums.h"
 
-enum PLAYER_COLOR { WHITE, BLACK };
-enum CHESS_PIECES { PAWN, KNIGHT, TOWER, BISHOP, QUEEN, KING };
+
 class Game
 {
 	static Engine3D* engine;
@@ -29,8 +29,9 @@ class Game
 	float _angle = 0.0;
 	float _cameraangle = 30.0;
 	// XZ position of the camera
-	float x = 7.5f, y = 7.0f, z = 30.0f;
-		// angle of rotation for the camera direction
+	float x = -7.5f, y = 7.0f, z = 30.0f;
+	//float x = 0.0f, y = 0.0f, z = ;
+	// angle of rotation for the camera direction
 	float angleX = 0.0f;
 	float angleY = 0.0f;
 	const static int numberOfAllOnePlayerPieces = 16;

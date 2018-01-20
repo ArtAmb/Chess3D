@@ -57,9 +57,14 @@ void ChessBoard::draw() {
 	}
 }
 
-ChessBoardField*  ChessBoard::getField(CHESS_COLUMN c, CHESS_ROW r) {
-	return &board[c][r];
+ChessBoardField* ChessBoard::getField(CHESS_COLUMN c, CHESS_ROW r) {
+	return &board[r][c];
 }
+
+ChessBoardField* ChessBoard::getField(int column, int row) {
+	return &board[row][column];
+}
+
 void ChessBoard::unlightAllFields(){
     for (int i = 0; i < BOARD_SIZE; ++i) {
 		for (int j = 0; j < BOARD_SIZE; ++j) {
@@ -72,17 +77,20 @@ void ChessBoard::highlightFields(FieldSelector fieldSelector){
     ChessBoardField* field = &board[fieldSelector.getRow()][fieldSelector.getColumn()];
     field->highlight();
 
-    if(field->getPiece() != NULL){
-        field->getPiece()->highlightPossibleMoves();
+    if(fieldSelector.getSavedPiece() != NULL){
+		fieldSelector.getSavedPiece()->highlightPossibleMoves();
     }
 
 }
 
-void ChessBoard::selectField(FieldSelector fieldSelector){
-    ChessBoardField* field = &board[fieldSelector.getRow()][fieldSelector.getColumn()];
-    fieldSelector.unselect();
+void ChessBoard::selectField(FieldSelector* fieldSelector){
+    ChessBoardField* field = getField(fieldSelector->getColumn(), fieldSelector->getRow());
+    
+	if (field->getPiece() == NULL && fieldSelector->getSavedPiece() != NULL) {
+		fieldSelector->unselect();
+	}
 
     if(field->getPiece() != NULL){
-        fieldSelector.select();
-    }
+        fieldSelector->select(field->getPiece());
+	}
 }

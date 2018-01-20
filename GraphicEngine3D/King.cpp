@@ -11,8 +11,8 @@ King::~King()
 {
 }
 
-King::King(CHESS_ROW r, CHESS_COLUMN col, int listId, ChessBoard* chessBoard) {
-	init(r, col, listId, chessBoard);
+King::King(CHESS_ROW r, CHESS_COLUMN col, int listId, ChessBoard* chessBoard, PLAYER_COLOR chessColor) {
+	init(r, col, listId, chessBoard, chessColor);
 }
 
 bool King::checkNextMove(ChessBoardField field) {

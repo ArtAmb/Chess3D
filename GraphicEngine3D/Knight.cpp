@@ -6,8 +6,8 @@ Knight::~Knight()
 {
 }
 
-Knight::Knight(CHESS_ROW r, CHESS_COLUMN col, int listId, ChessBoard* chessBoard) {
-	init(r, col, listId, chessBoard);
+Knight::Knight(CHESS_ROW r, CHESS_COLUMN col, int listId, ChessBoard* chessBoard, PLAYER_COLOR chessColor) {
+	init(r, col, listId, chessBoard, chessColor);
 }
 
 bool Knight::checkNextMove(ChessBoardField field) {
@@ -25,11 +25,11 @@ void Knight::highlightPossibleMoves() {
 void Knight::drawKnight(Colors::RGB color) {
     Engine3DLoader::getEngine()->glColor3c(color);
     glScalef(0.25f, 0.25f, 0.25f);
-    glutSolidTorus(0.4f, 1.2f, 100, 200);
+	glutSolidTorus(0.4f, 1.2f, 100, 200);
     ChessPiece::drawKnightPhillar(0.6f, 15, -0.3);
     glTranslatef(0.5,0,-0.5);
-    glRotated( 90, 0,1,0 );
-    ChessPiece::drawKnightPhillar(0.4f, 10, -0.3);
+    glRotated(90, 0, 1, 0 );
+	ChessPiece::drawKnightPhillar(0.4f, 10, -0.3);
 
     glRotated( 90, 0,1,0 );
     glTranslatef(-1.2,0.2,0.4);

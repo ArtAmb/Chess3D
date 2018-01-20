@@ -2,9 +2,9 @@
 #include "ChessBoard.h"
 
 
-Bishop::Bishop(CHESS_ROW r, CHESS_COLUMN col, int listId, ChessBoard* chessBoard)
+Bishop::Bishop(CHESS_ROW r, CHESS_COLUMN col, int listId, ChessBoard* chessBoard, PLAYER_COLOR chessColor)
 {
-    init(r, col, listId, chessBoard);
+    init(r, col, listId, chessBoard, chessColor);
 }
 
 Bishop::~Bishop()

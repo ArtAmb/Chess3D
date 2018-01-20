@@ -4,7 +4,7 @@
 class Bishop : public ChessPiece
 {
 public:
-    Bishop(CHESS_ROW, CHESS_COLUMN, int, ChessBoard* chessBoard);
+    Bishop(CHESS_ROW, CHESS_COLUMN, int, ChessBoard* chessBoard, PLAYER_COLOR chessColor);
 
     bool checkNextMove(ChessBoardField field);
     void move(ChessBoardField field);

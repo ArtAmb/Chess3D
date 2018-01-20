@@ -3,7 +3,7 @@
 class Rook : public ChessPiece {
 
 public:
-    Rook(CHESS_ROW, CHESS_COLUMN, int, ChessBoard* chessBoard);
+    Rook(CHESS_ROW, CHESS_COLUMN, int, ChessBoard* chessBoard, PLAYER_COLOR chessColor);
 
     bool checkNextMove(ChessBoardField field);
     void move(ChessBoardField field);

@@ -3,9 +3,9 @@
 
 
 
-Rook::Rook(CHESS_ROW r, CHESS_COLUMN col, int listId, ChessBoard* chessBoard)
+Rook::Rook(CHESS_ROW r, CHESS_COLUMN col, int listId, ChessBoard* chessBoard, PLAYER_COLOR chessColor)
 {
-    init(r, col, listId, chessBoard);
+    init(r, col, listId, chessBoard, chessColor);
 }
 
 bool Rook::checkNextMove(ChessBoardField field)

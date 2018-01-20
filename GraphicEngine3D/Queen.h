@@ -4,7 +4,7 @@
 class Queen : public ChessPiece
 {
 public:
-	Queen(CHESS_ROW , CHESS_COLUMN, int, ChessBoard* chessBoard);
+	Queen(CHESS_ROW , CHESS_COLUMN, int, ChessBoard* chessBoard, PLAYER_COLOR chessColor);
 
 	bool checkNextMove(ChessBoardField field);
 	void move(ChessBoardField field);

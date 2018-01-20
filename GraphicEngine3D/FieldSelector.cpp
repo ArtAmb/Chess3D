@@ -18,6 +18,8 @@ void FieldSelector::move(int x, int y)
     else
         column = (CHESS_COLUMN)(intY + y);
 
+	std::cout << "ROW == " << row << ", COLUMN == "<< column << std::endl;
+
 }
 
 void FieldSelector::absoluteMove(CHESS_ROW x, CHESS_COLUMN y)
