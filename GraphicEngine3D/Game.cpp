@@ -296,18 +296,16 @@ void Game::releaseKey(unsigned char key, int x, int y)
 			chessBoard->selectField(&fieldSelector);
 			break;
 		case 'r':
-			camera->reset(Point3D(-20.925, 1.98319, 2.01716), Point3D(-20.925, 1.98319, 2.01716), Point3D(0.0f, 1.0f, 0.0f));
+			camera->reset(Point3D(-7.92386f, 11.4153f, 26.6328f), Point3D(-7.92386f, 11.4153f, 26.6328f), Point3D(0.0f, 1.0f, 0.0f));
 			angleX = -0.012f;
 			angleY = 0.566f;
-			//lx = -0.0119997f, ly = -0.549696f, lz = -0.999928f;
+			lx = -0.0119997f, ly = -0.549696f, lz = -0.999928f;
 			break;
 		case 't':
-			//camera->reset(Point3D(3.296, 1.05891,13.7758), Point3D(3.296, 1.05891, 13.7758), Point3D(0.0f, 1.0f, 0.0f));
-			//camera->reset(Point3D(-7.62293, 14.0309, -13.0205), Point3D(-7.62293, 14.0309, -13.0205), Point3D(0.0f, 1.0f, 0.0f));
 			camera->reset(Point3D(-7.92386f, 14.0309f, -26.6328f / 2), Point3D(-7.92386f, 14.0309f, -26.6328f / 2), Point3D(0.0f, 1.0f, 0.0f));
 			angleX = 3.154f;
 			angleY = 0.565f;
-			x = -0.0119997f, ly = -0.549696f, lz = 0.999928f;
+			lx = -0.0119997f, ly = -0.549696f, lz = 0.999928f;
 			break;
 		case 'q':
 		case 'e':
