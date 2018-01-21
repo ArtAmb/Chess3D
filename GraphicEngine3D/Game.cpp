@@ -58,6 +58,8 @@ Game::Game()
 
     pieces[WHITE][15] = new King(R_1, C_E, piecesDiplayList[WHITE][KING], chessBoard, WHITE);
     pieces[BLACK][15] = new King(R_8, C_E, piecesDiplayList[BLACK][KING], chessBoard, BLACK);
+
+	chessBoard->setPieces();
 }
 
 void Game::loadDisplayLists()

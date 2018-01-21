@@ -10,6 +10,15 @@ ChessPiece::ChessPiece(CHESS_ROW r, CHESS_COLUMN col, int listId, ChessBoard* ch
 	init(r, col, listId, chessBoard, chessColor);
 }
 
+std::vector<SimpleChessField> ChessPiece::getPossibleMoves()
+{
+	if (!isBeingProcessed()) {
+		resetPossibleMoves();
+		fillPossibleMoves();
+	}
+	return possibleMoves;
+}
+
 bool ChessPiece::checkNextMove(ChessBoardField field)
 {
 	tryToFillPossibleMoves();
@@ -28,6 +37,14 @@ bool ChessPiece::tryToMove(ChessBoardField * field)
 		return true;
 	}
 	return false;
+}
+
+SimpleChessField ChessPiece::getSimpleField()
+{
+	if (isBeingProcessed())
+		return getNewField();
+
+	return SimpleChessField(row, column);
 }
 
 void ChessPiece::move(ChessBoardField* field)
@@ -82,7 +99,7 @@ ChessPiece::~ChessPiece()
 {
 }
 
-void ChessPiece::fillPossibleMovesFieldSeries(int deltaRow, int deltaColumn){
+void ChessPiece::fillPossibleMovesFieldSeries(int deltaRow, int deltaColumn) {
 	for (int i = 1; ; i++) {
 		if (chessBoard->getField(column + i*deltaColumn, row + i*deltaRow) && chessBoard->getField(column + i*deltaColumn, row + i*deltaRow)->isPossibleToMoveHere(chessColor)) {
 			addToPossibleMoves(chessBoard->getField(column + i*deltaColumn, row + i*deltaRow));
@@ -100,7 +117,7 @@ void ChessPiece::fillPossibleMovesForRook() {
 	fillPossibleMovesFieldSeries(0, -1);
 }
 
-void ChessPiece::fillPossibleMovesForBishop(){
+void ChessPiece::fillPossibleMovesForBishop() {
 	fillPossibleMovesFieldSeries(1, 1);
 	fillPossibleMovesFieldSeries(-1, -1);
 	fillPossibleMovesFieldSeries(-1, 1);
@@ -130,10 +147,36 @@ void ChessPiece::resetPossibleMoves()
 
 void ChessPiece::tryToFillPossibleMoves()
 {
-	if (!possibleMoves.empty())
-		return;
+	resetPossibleMoves();
 
 	fillPossibleMoves();
+	for (int i = 0; i < possibleMoves.size(); ) {
+		ChessBoardField* field = chessBoard->getField(possibleMoves[i]);
+		ChessPiece* tmpPiece = field->getPiece();
+
+		startProcessing();
+		setAlive(false);
+		if (tmpPiece != NULL)
+			tmpPiece->setAlive(false);
+		field->setPiece(this);
+		setNewField(field->getRow(), field->getColumn());
+		if (chessBoard->checkIfKingIsInCheck(getColor())) {
+			possibleMoves.erase(possibleMoves.begin() + i);
+			stopProcesing(field, tmpPiece);
+			continue;
+		}
+		stopProcesing(field, tmpPiece);
+		++i;
+	}
+}
+
+void ChessPiece::stopProcesing(ChessBoardField* field, ChessPiece* tmpPiece)
+{
+	field->setPiece(tmpPiece);
+	if (tmpPiece != NULL)
+		tmpPiece->setAlive(true);
+	setAlive(true);
+	stopProcessing();
 }
 
 void ChessPiece::drawChessPhillar(int howMany, float delta) {

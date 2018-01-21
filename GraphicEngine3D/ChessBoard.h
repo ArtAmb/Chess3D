@@ -8,6 +8,7 @@
 #include "FieldSelector.h"
 #include "SimpleChessField.h"
 #include "Pawn.h"
+#include "King.h"
 class ChessBoardField {
 private:
 	CHESS_ROW x;
@@ -82,19 +83,28 @@ class ChessBoard {
 	PLAYER_COLOR currPlayer = WHITE;
 	const static int BOARD_SIZE = 8;
 	ChessBoardField board[BOARD_SIZE][BOARD_SIZE];
-
+	ChessPiece* pieces[32];
 	Point3D startPoint;
 	float cubeL, cubeW, cubeH;
 	float boardL, boardW, boardH;
 	void initBoard();
 	void disableEnPassantPawns();
+	King* kings[2];
+	void checkKing(King* king);
+	King* checkedKing = NULL;
 public:
+	void setKing(King* king);
+	bool checkIfKingsAreInCheck();
+	
+	void setPieces();
 	void addEnPassantPawns(Pawn* pawn);
 	void tryToKillEnPassantPawn(SimpleChessField field);
 	ChessBoard();
 	ChessBoard(Point3D, float cubeL, float cubeW, float cubeH);
 	~ChessBoard();
 
+	King* getCheckedKing() { return checkedKing; }
+	bool checkIfKingIsInCheck(PLAYER_COLOR color);
 	Point3D getStartPoint() { return startPoint; }
 	void updateCurrentPlayer(bool isChangeNeeded);
 

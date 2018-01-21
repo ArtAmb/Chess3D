@@ -18,6 +18,7 @@ void King::fillOneFieldAroundPiece(int deltaRow, int deltaColumn) {
 
 King::King(CHESS_ROW r, CHESS_COLUMN col, int listId, ChessBoard* chessBoard, PLAYER_COLOR chessColor) {
 	init(r, col, listId, chessBoard, chessColor);
+	chessBoard->setKing(this);
 }
 
 void drawCross(){

@@ -39,6 +39,10 @@ void ChessBoard::disableEnPassantPawns()
 
 }
 
+void ChessBoard::checkKing(King * king)
+{
+}
+
 void ChessBoard::tryToKillEnPassantPawn(SimpleChessField field) {
 	if (enPassantPawns.size() == 0)
 		return;
@@ -46,6 +50,39 @@ void ChessBoard::tryToKillEnPassantPawn(SimpleChessField field) {
 	for (int i = 0; i < enPassantPawns.size(); ++i) {
 		if (enPassantPawns[i]->isEnPasantAvailable() && enPassantPawns[i]->getOldField() == field) {
 			enPassantPawns[i]->die();
+		}
+	}
+}
+
+void ChessBoard::setKing(King * king)
+{
+	kings[king->getColor()] = king;
+}
+
+bool ChessBoard::checkIfKingsAreInCheck() {
+	for (int i = 0; i < 32; ++i) {
+		if (!pieces[i]->isAlive())
+			continue;
+		std::vector<SimpleChessField> posibleMoves = pieces[i]->getPossibleMoves();
+		for (int j = 0; j < posibleMoves.size(); ++i) {
+			for (int k = 0; k < 2; k++)
+				if (posibleMoves[j] == kings[k]->getSimpleField()) {
+					checkKing(kings[k]);
+					return true;
+				}
+		}
+
+	}
+
+	return false;
+}
+
+void ChessBoard::setPieces() {
+	int k = -1;
+	for (int i = 0; i < BOARD_SIZE; ++i) {
+		for (int j = 0; j < BOARD_SIZE; ++j) {
+			if (getField(i, j)->getPiece() != NULL)
+				pieces[++k] = getField(i, j)->getPiece();
 		}
 	}
 }
@@ -130,6 +167,23 @@ void ChessBoard::highlightFields(FieldSelector fieldSelector) {
 		fieldSelector.getSavedPiece()->highlightPossibleMoves();
 	}
 	field->highlight(Colors::YELLOW);
+}
+bool ChessBoard::checkIfKingIsInCheck(PLAYER_COLOR color)
+{
+	for (int i = 0; i < 32; ++i) {
+		if (!pieces[i]->isAlive())
+			continue;
+		std::vector<SimpleChessField> posibleMoves = pieces[i]->getPossibleMoves();
+		for (int j = 0; j < posibleMoves.size(); ++j) {
+			if (posibleMoves[j] == kings[color]->getSimpleField()) {
+				checkKing(kings[color]);
+				return true;
+			}
+		}
+
+	}
+
+	return false;
 }
 void ChessBoard::updateCurrentPlayer(bool isChangeNeeded) {
 	if (isChangeNeeded) {
