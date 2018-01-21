@@ -43,11 +43,11 @@ public:
 	ChessPiece();
 	ChessPiece(CHESS_ROW r, CHESS_COLUMN col, int listId, ChessBoard* chessBoard, PLAYER_COLOR chessColor);
 
+	std::vector<SimpleChessField> getPossibleMovesIncludingKing();
 	std::vector<SimpleChessField> getPossibleMoves();
 	bool checkNextMove(ChessBoardField field);
 	bool tryToMove(ChessBoardField* field);
 	SimpleChessField getSimpleField();
-	
 	void highlightPossibleMoves();
 	void reset();
 	virtual void draw();

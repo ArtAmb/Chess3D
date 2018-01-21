@@ -43,6 +43,62 @@ void ChessBoard::checkKing(King * king)
 {
 }
 
+bool isFieldInVector(SimpleChessField field, std::vector<SimpleChessField> vector) {
+	for (int i = 0; i < vector.size(); ++i) {
+		if (vector[i] == field)
+			return true;
+	}
+	return false;
+}
+
+CHESS_GAME_STATE ChessBoard::checkIfGameEnd()
+{
+	std::vector<SimpleChessField> whiteMoves;
+	std::vector<SimpleChessField> blackMoves;
+	for (int i = 0; i < 32; ++i) {
+		if (pieces[i]->getColor() == WHITE) {
+			std::vector<SimpleChessField> tmp = pieces[i]->getPossibleMoves();
+			whiteMoves.insert(whiteMoves.end(),tmp.begin(), tmp.end());
+		}
+		else {
+			std::vector<SimpleChessField> tmp = pieces[i]->getPossibleMoves();
+			blackMoves.insert(blackMoves.end(), tmp.begin(), tmp.end());
+		}
+	}
+
+	bool isWhiteKingChecked = isFieldInVector(kings[WHITE]->getSimpleField(), blackMoves);
+	bool isBlackKingChecked = isFieldInVector(kings[BLACK]->getSimpleField(), whiteMoves);
+	
+	if (isWhiteKingChecked && whiteMoves.empty())
+		return WINNER_BLACK;
+	if (isBlackKingChecked && blackMoves.empty())
+		return WINNER_WHITE;
+	if (!isWhiteKingChecked && whiteMoves.empty())
+		return STALEMATE;
+	if (!isBlackKingChecked && blackMoves.empty())
+		return STALEMATE;
+
+	return CONTINIUE;
+}
+
+void ChessBoard::endGame(CHESS_GAME_STATE gameState)
+{
+	switch (gameState)
+	{
+	case WINNER_BLACK:
+		std::cout << "CHECKMATE!!! WINNER: BLACK"<< std::endl;
+		break;
+	case WINNER_WHITE:
+		std::cout << "CHECKMATE!!! WINNER: WHITE" << std::endl;
+		break;
+	case STALEMATE:
+		std::cout << "STALEMATE!" << std::endl;
+		break;
+	default:
+		break;
+	}
+}
+
 void ChessBoard::tryToKillEnPassantPawn(SimpleChessField field) {
 	if (enPassantPawns.size() == 0)
 		return;
@@ -57,24 +113,6 @@ void ChessBoard::tryToKillEnPassantPawn(SimpleChessField field) {
 void ChessBoard::setKing(King * king)
 {
 	kings[king->getColor()] = king;
-}
-
-bool ChessBoard::checkIfKingsAreInCheck() {
-	for (int i = 0; i < 32; ++i) {
-		if (!pieces[i]->isAlive())
-			continue;
-		std::vector<SimpleChessField> posibleMoves = pieces[i]->getPossibleMoves();
-		for (int j = 0; j < posibleMoves.size(); ++i) {
-			for (int k = 0; k < 2; k++)
-				if (posibleMoves[j] == kings[k]->getSimpleField()) {
-					checkKing(kings[k]);
-					return true;
-				}
-		}
-
-	}
-
-	return false;
 }
 
 void ChessBoard::setPieces() {
@@ -173,7 +211,7 @@ bool ChessBoard::checkIfKingIsInCheck(PLAYER_COLOR color)
 	for (int i = 0; i < 32; ++i) {
 		if (!pieces[i]->isAlive())
 			continue;
-		std::vector<SimpleChessField> posibleMoves = pieces[i]->getPossibleMoves();
+		std::vector<SimpleChessField> posibleMoves = pieces[i]->getPossibleMovesIncludingKing();
 		for (int j = 0; j < posibleMoves.size(); ++j) {
 			if (posibleMoves[j] == kings[color]->getSimpleField()) {
 				checkKing(kings[color]);
@@ -185,10 +223,12 @@ bool ChessBoard::checkIfKingIsInCheck(PLAYER_COLOR color)
 
 	return false;
 }
+
 void ChessBoard::updateCurrentPlayer(bool isChangeNeeded) {
 	if (isChangeNeeded) {
 		currPlayer = (currPlayer == WHITE ? BLACK : WHITE);
 		disableEnPassantPawns();
+  		endGame(checkIfGameEnd());
 	}
 
 }

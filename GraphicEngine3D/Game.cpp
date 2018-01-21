@@ -226,8 +226,7 @@ void Game::mouseButton(int button, int state, int x, int y)
 
 void Game::releaseKey(unsigned char key, int x, int y)
 {
-
-    switch (key)
+	switch (key)
     {
 	case 'i':
 		std::cout << camera->getPosition()->toString() << std::endl
@@ -325,7 +324,7 @@ void Game::displayFunc()
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     glMatrixMode(GL_MODELVIEW);
     glLoadIdentity();
-	engine->displayText(0, 0, Colors::RED, "cameraPosition: " + camera->getPosition()->toString());
+	engine->displayText(0, 0, Colors::YELLOW, "cameraPosition: " + camera->getPosition()->toString());
 	//engine->displayText(-2, 0.1, Colors::RED, "placeCameraLookingAt: " + camera->getPlaceCameraLookingAt()->toString());
 	//engine->displayText(-2, 0.2, Colors::RED, "cameraVerticalOffset: " + camera->getVerticalOffset()->toString());
 	//std::cout << "cameraPosition: "<< camera->getPosition()->toString() << std::endl;

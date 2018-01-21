@@ -5,7 +5,7 @@
 class FieldSelector {
 	CHESS_ROW row;
 	CHESS_COLUMN column;
-	bool selected;
+	bool selected = false;
 	ChessPiece* savedPiece = NULL;
 public:
 	FieldSelector() {};

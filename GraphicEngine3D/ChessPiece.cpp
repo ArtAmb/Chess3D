@@ -10,12 +10,19 @@ ChessPiece::ChessPiece(CHESS_ROW r, CHESS_COLUMN col, int listId, ChessBoard* ch
 	init(r, col, listId, chessBoard, chessColor);
 }
 
-std::vector<SimpleChessField> ChessPiece::getPossibleMoves()
+std::vector<SimpleChessField> ChessPiece::getPossibleMovesIncludingKing()
 {
 	if (!isBeingProcessed()) {
 		resetPossibleMoves();
 		fillPossibleMoves();
 	}
+	return possibleMoves;
+}
+
+std::vector<SimpleChessField> ChessPiece::getPossibleMoves() {
+	resetPossibleMoves();
+	tryToFillPossibleMoves();
+
 	return possibleMoves;
 }
 

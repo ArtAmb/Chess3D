@@ -92,9 +92,10 @@ class ChessBoard {
 	King* kings[2];
 	void checkKing(King* king);
 	King* checkedKing = NULL;
+	CHESS_GAME_STATE checkIfGameEnd();
+	void endGame(CHESS_GAME_STATE gameState);
 public:
 	void setKing(King* king);
-	bool checkIfKingsAreInCheck();
 	
 	void setPieces();
 	void addEnPassantPawns(Pawn* pawn);
