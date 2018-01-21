@@ -21,7 +21,7 @@ class Game
 	}
 
 	int piecesDiplayList[2][numberOfPieceTypes];
-	float lx = 0.0f, ly = 0.0f, lz = -1.0f;
+	float lx = -0.0119997f, ly = -0.549696f, lz = -0.999928f;
 	float deltaAngleX = 0.0f;
 	float deltaAngleY = 0.0f;
 	float deltaMove = 0;
@@ -29,11 +29,10 @@ class Game
 	float _angle = 0.0;
 	float _cameraangle = 30.0;
 	// XZ position of the camera
-	float x = -7.5f, y = 7.0f, z = 30.0f;
-	//float x = 0.0f, y = 0.0f, z = ;
-	// angle of rotation for the camera direction
-	float angleX = 0.0f;
-	float angleY = 0.0f;
+	//float x = -7.5f, y = 7.0f, z = 30.0f;
+	float x = -7.92386f, y = 11.4153f, z = 26.6328f;
+	float angleX = -0.012f;
+	float angleY = 0.566f;
 	const static int numberOfAllOnePlayerPieces = 16;
 	ChessPiece* pieces[2][numberOfAllOnePlayerPieces];
 	void computePos(float deltaMove);
@@ -41,8 +40,12 @@ class Game
 	float veticalDelta = 0;
 
 	Camera* camera;
-
+	
 	ChessBoard* chessBoard;
+
+	bool isIntroPlaying = true;
+	void playIntro();
+	void stopIntro();
 public:
 	void keyboardFunc(unsigned char key, int x, int y);
 	void specialKeyboard(int key, int x, int y);

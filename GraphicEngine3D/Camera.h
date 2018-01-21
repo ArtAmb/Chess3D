@@ -31,5 +31,6 @@ public:
 	void lookAt(Point3D cameraPosition, Point3D placeCameraLookingAt, Point3D cameraVerticalOffset);
 	void lookAtWithOffset(Point3D cameraPositionOff, Point3D placeCameraLookingAtOff, Point3D cameraVerticalOffsetOff);
     void reset();
+	void reset(Point3D cameraPosition, Point3D placeCameraLookingAt, Point3D cameraVerticalOffset);
 };
 

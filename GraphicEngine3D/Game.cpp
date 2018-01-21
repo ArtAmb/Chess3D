@@ -166,6 +166,16 @@ void Game::timerFunc(int value)
 }
 
 
+void Game::playIntro()
+{
+	isIntroPlaying = true;
+}
+
+void Game::stopIntro()
+{
+	isIntroPlaying = false;
+}
+
 void Game::keyboardFunc(unsigned char key, int x, int y)
 {
     switch (key)
@@ -232,17 +242,28 @@ void Game::releaseKey(unsigned char key, int x, int y)
 		std::cout << camera->getPosition()->toString() << std::endl
 			<< camera->getPlaceCameraLookingAt()->toString() << std::endl
 			<< camera->getVerticalOffset()->toString() << std::endl
-			<< angleX << ", " << angleY << std::endl;
+			<< angleX << ", " << angleY << std::endl
+			<< lx << ", " << ly << ", " << lz << std::endl
+			<< deltaAngleX << ", " << deltaAngleY << std::endl;
+
 		break;
 	case ' ':
 		chessBoard->selectField(&fieldSelector);
 		break;
     case 'r':
-        camera->reset();
-        angleX = 0.0f;
-        angleY = 0.0f;
-        lx = 0.0f, ly = 0.0f, lz = -1.0f;
+        camera->reset(); 
+		angleX = -0.012f;
+		angleY = 0.566f;
+        lx = -0.0119997f, ly = -0.549696f, lz = -0.999928f;
         break;
+	case 't':
+		//camera->reset(Point3D(3.296, 1.05891,13.7758), Point3D(3.296, 1.05891, 13.7758), Point3D(0.0f, 1.0f, 0.0f));
+		//camera->reset(Point3D(-7.62293, 14.0309, -13.0205), Point3D(-7.62293, 14.0309, -13.0205), Point3D(0.0f, 1.0f, 0.0f));
+		camera->reset(Point3D(-7.92386f, 14.0309f, -26.6328f/2), Point3D(-7.92386f, 14.0309f, -26.6328f/2), Point3D(0.0f, 1.0f, 0.0f));
+		angleX = 3.154f;
+		angleY = 0.565f;
+		x = -0.0119997f, ly = -0.549696f, lz = 0.999928f;
+		break;
     case 'q':
     case 'e':
         veticalDelta = 0;
@@ -271,11 +292,9 @@ void Game::specialKeyboard(int key, int x, int y)
     switch (key)
     {
     case GLUT_KEY_UP:
-        //cameraPosition.moveMyself(0, 0.1f, 0);
         deltaMove = 0.5f;
         break;
     case GLUT_KEY_DOWN:
-        //cameraPosition.moveMyself(0, -0.1f, 0);
         deltaMove = -0.5f;
         break;
     case GLUT_KEY_LEFT:
@@ -324,11 +343,8 @@ void Game::displayFunc()
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     glMatrixMode(GL_MODELVIEW);
     glLoadIdentity();
-	engine->displayText(0, 0, Colors::YELLOW, "cameraPosition: " + camera->getPosition()->toString());
-	//engine->displayText(-2, 0.1, Colors::RED, "placeCameraLookingAt: " + camera->getPlaceCameraLookingAt()->toString());
-	//engine->displayText(-2, 0.2, Colors::RED, "cameraVerticalOffset: " + camera->getVerticalOffset()->toString());
-	//std::cout << "cameraPosition: "<< camera->getPosition()->toString() << std::endl;
-    if (deltaMove)
+
+	if (deltaMove)
         computePos(deltaMove);
     if (veticalDelta)
         camera->getPlaceCameraLookingAt()->moveMyself(0, veticalDelta * 0.1, 0);

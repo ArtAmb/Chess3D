@@ -155,7 +155,8 @@ void ChessPiece::resetPossibleMoves()
 void ChessPiece::tryToFillPossibleMoves()
 {
 	resetPossibleMoves();
-
+	if (!isAlive())
+		return;
 	fillPossibleMoves();
 	for (int i = 0; i < possibleMoves.size(); ) {
 		ChessBoardField* field = chessBoard->getField(possibleMoves[i]);

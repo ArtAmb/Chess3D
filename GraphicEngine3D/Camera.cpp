@@ -45,3 +45,9 @@ void Camera::reset()
 	this->placeCameraLookingAt = startPlaceCameraLookingAt;
 	this->cameraVerticalOffset = startCameraVerticalOffset;
 }
+
+void Camera::reset(Point3D cameraPosition, Point3D placeCameraLookingAt, Point3D cameraVerticalOffset) {
+	this->cameraPosition = cameraPosition;
+	this->placeCameraLookingAt = placeCameraLookingAt;
+	this->cameraVerticalOffset = cameraVerticalOffset;
+}
