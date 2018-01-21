@@ -44,8 +44,12 @@ class Game
 	ChessBoard* chessBoard;
 
 	bool isIntroPlaying = true;
+	PLAYER_COLOR currPlayedIntro = WHITE;
 	void playIntro();
 	void stopIntro();
+	void playBlackPart();
+	void playWhitePart();
+	void tryToSwitchPlayingIntro();
 public:
 	void keyboardFunc(unsigned char key, int x, int y);
 	void specialKeyboard(int key, int x, int y);
