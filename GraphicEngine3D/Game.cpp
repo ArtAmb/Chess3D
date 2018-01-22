@@ -247,6 +247,8 @@ void Game::keyboardFunc(unsigned char key, int x, int y)
 
 void Game::mouseMove(int x, int y)
 {
+	if (isIntroPlaying)
+		return;
     // this will only be true when the left button is down
     if (xOrigin >= 0)
     {
@@ -263,6 +265,8 @@ void Game::mouseMove(int x, int y)
 
 void Game::mouseButton(int button, int state, int x, int y)
 {
+	if (isIntroPlaying)
+		return;
 
     // only start motion if the left button is pressed
     if (button == GLUT_LEFT_BUTTON)
@@ -312,20 +316,15 @@ void Game::releaseKey(unsigned char key, int x, int y)
             chessBoard->selectField(&fieldSelector);
             break;
         case 'r':
-            //camera->reset(Point3D(-20.925, 1.98319, 2.01716), Point3D(-20.925, 1.98319, 2.01716), Point3D(0.0f, 1.0f, 0.0f));
             camera->reset(Point3D(-7.92386f, 13.4153f, 30.6328f), Point3D(-7.92386f, 13.4153f, 30.6328f), Point3D(0.0f, 1.0f, 0.0f));
             angleX = -0.012f;
             angleY = 0.566f;
-            //lx = -0.0119997f, ly = -0.549696f, lz = -0.999928f;
             lx = -0.0119997f, ly = -0.549696f, lz = -0.999928f;
             break;
         case 't':
-            //camera->reset(Point3D(3.296, 1.05891,13.7758), Point3D(3.296, 1.05891, 13.7758), Point3D(0.0f, 1.0f, 0.0f));
-            //camera->reset(Point3D(-7.62293, 14.0309, -13.0205), Point3D(-7.62293, 14.0309, -13.0205), Point3D(0.0f, 1.0f, 0.0f));
             camera->reset(Point3D(-7.92386f, 13.4153f, -26.6328f / 2), Point3D(-7.92386f, 13.4153f, -26.6328f / 2), Point3D(0.0f, 1.0f, 0.0f));
             angleX = 3.154f;
             angleY = 0.565f;
-            //x = -0.0119997f, ly = -0.549696f, lz = 0.999928f;
             lx = -0.0119997f, ly = -0.549696f, lz = 0.999928f;
             break;
         case 'q':
