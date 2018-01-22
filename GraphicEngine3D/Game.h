@@ -4,6 +4,7 @@
 #include "Camera.h"
 #include "FieldSelector.h"
 #include "ChessEnums.h"
+#include "World.h"
 
 
 class Game
@@ -11,8 +12,8 @@ class Game
 	static Engine3D* engine;
 
 	static const int numberOfPieceTypes = 6;
-    Colors::RGB whiteColor = Colors::RED;
-    Colors::RGB blackColor = Colors::BLUE;
+     Colors::RGB whiteColor = Colors::DARKWHITE;
+    Colors::RGB blackColor = Colors::DARKGRAY;
 
     FieldSelector fieldSelector;
 
@@ -30,9 +31,13 @@ class Game
 	float _cameraangle = 30.0;
 	// XZ position of the camera
 	//float x = -7.5f, y = 7.0f, z = 30.0f;
-	float x = -7.92386f, y = 11.4153f, z = 26.6328f;
+
+	float x = -7.92386f, y = 13.4153f, z = 30.6328f;
 	float angleX = -0.012f;
 	float angleY = 0.566f;
+
+
+
 	const static int numberOfAllOnePlayerPieces = 16;
 	ChessPiece* pieces[2][numberOfAllOnePlayerPieces];
 	void computePos(float deltaMove);
@@ -40,8 +45,9 @@ class Game
 	float veticalDelta = 0;
 
 	Camera* camera;
-	
+
 	ChessBoard* chessBoard;
+	World* world;
 
 	bool isIntroPlaying = true;
 	PLAYER_COLOR currPlayedIntro = WHITE;

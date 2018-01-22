@@ -35,6 +35,14 @@ namespace Colors {
 	static RGB GRAY(0.5f, 0.5f, 0.5f, 1);
 	static RGB WHITE(1.0f, 1.0f, 1.0f, 1);
 	static RGB BLACK(0.0f, 0.0f, 0.0f, 1);
-	
+
+	 static RGB DARKWHITE(0.95f, 0.95f, 0.95f, 1);
+	static RGB DARKGRAY(0.2f, 0.2f, 0.2f, 1);
+
+	static RGB LIGHTBROWN(0.95f, 0.8f, 0.7f, 1);
+	static RGB DARKBROWN(0.3f, 0.15f, 0.15f, 1);
+
+	static RGB LIGHTBLUE (0.0, 0.6, 0.9, 1.0);
+
 }
 

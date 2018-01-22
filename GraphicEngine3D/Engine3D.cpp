@@ -5,7 +5,7 @@ Engine3D* Engine3DLoader::engine = NULL;
 
 GLfloat lightAmb[] = {0.2, 0.2, 0.2, 1.0};
 GLfloat lightDif[] = {0.8, 0.8, 0.8, 1.0};
-GLfloat lightPos[] = {100, 200, 0, 1.0};
+GLfloat lightPos[] = {100, 700, 0, 1.0};
 GLfloat lightSpec[] = {1, 1, 1, 1};
 
 Engine3D::Engine3D(int argc, char**argv)
@@ -97,12 +97,13 @@ void Engine3D::mouseMotionFunc(void(*moveMotion)(int, int)) {
 
 
 
-void Engine3D::displayText(float x, float y, Colors::RGB color, std::string string) {
+void Engine3D::displayText(float x, float y, float z, Colors::RGB color, std::string string) {
 	glColor3f(color.getR(), color.getG(), color.getB());
+
 	glPushMatrix();
-	glRasterPos2f(x, y);
+	glRasterPos3f(x, y,z);
 	for (unsigned int i = 0; i < string.length(); i++) {
-		glutBitmapCharacter(GLUT_BITMAP_TIMES_ROMAN_10, string[i]);
+		glutBitmapCharacter(GLUT_BITMAP_TIMES_ROMAN_24, string[i]);
 	}
 	glPopMatrix();
 }

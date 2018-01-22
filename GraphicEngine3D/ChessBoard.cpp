@@ -68,7 +68,7 @@ CHESS_GAME_STATE ChessBoard::checkIfGameEnd()
 
 	bool isWhiteKingChecked = isFieldInVector(kings[WHITE]->getSimpleField(), blackMoves);
 	bool isBlackKingChecked = isFieldInVector(kings[BLACK]->getSimpleField(), whiteMoves);
-	
+
 	if (isWhiteKingChecked && whiteMoves.empty())
 		return WINNER_BLACK;
 	if (isBlackKingChecked && blackMoves.empty())
@@ -83,20 +83,42 @@ CHESS_GAME_STATE ChessBoard::checkIfGameEnd()
 
 void ChessBoard::endGame(CHESS_GAME_STATE gameState)
 {
-	switch (gameState)
-	{
-	case WINNER_BLACK:
-		std::cout << "CHECKMATE!!! WINNER: BLACK"<< std::endl;
-		break;
-	case WINNER_WHITE:
-		std::cout << "CHECKMATE!!! WINNER: WHITE" << std::endl;
-		break;
-	case STALEMATE:
-		std::cout << "STALEMATE!" << std::endl;
-		break;
-	default:
-		break;
-	}
+    switch (gameState)
+    {
+    case WINNER_BLACK:
+    {
+        std::cout << "CHECKMATE!!! WINNER: BLACK"<< std::endl;
+        state = WINNER_BLACK;
+
+        break;
+    }
+    case WINNER_WHITE:
+    {
+        std::cout << "CHECKMATE!!! WINNER: WHITE" << std::endl;
+         state = WINNER_WHITE;
+        Engine3DLoader::getEngine()->displayText(0, 7,-4, Colors::WHITE, "CHECKMATE!!! WINNER: WHITE");
+
+        break;
+    }
+    case STALEMATE:
+    {
+        std::cout << "STALEMATE!" << std::endl;
+        state=STALEMATE;
+
+        break;
+    }
+    default:
+
+        break;
+    }
+}
+CHESS_GAME_STATE ChessBoard::getGameState()
+{
+    return state;
+}
+PLAYER_COLOR ChessBoard::getCurrPlayer()
+{
+    return currPlayer;
 }
 
 void ChessBoard::tryToKillEnPassantPawn(SimpleChessField field) {
@@ -171,7 +193,7 @@ void ChessBoardField::draw(Colors::RGB color) {
 void ChessBoard::draw() {
 	for (int i = 0; i < BOARD_SIZE; ++i) {
 		for (int j = 0; j < BOARD_SIZE; ++j) {
-			board[i][j].draw(i % 2 == j % 2 ? Colors::BLACK : Colors::GRAY);
+			board[i][j].draw(i % 2 == j % 2 ? Colors::DARKBROWN : Colors::LIGHTBROWN);
 		}
 	}
 }

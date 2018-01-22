@@ -94,9 +94,13 @@ class ChessBoard {
 	King* checkedKing = NULL;
 	CHESS_GAME_STATE checkIfGameEnd();
 	void endGame(CHESS_GAME_STATE gameState);
+	CHESS_GAME_STATE state = CONTINIUE;
+
 public:
+    CHESS_GAME_STATE getGameState();
+    PLAYER_COLOR getCurrPlayer();
 	void setKing(King* king);
-	
+
 	void setPieces();
 	void addEnPassantPawns(Pawn* pawn);
 	void tryToKillEnPassantPawn(SimpleChessField field);

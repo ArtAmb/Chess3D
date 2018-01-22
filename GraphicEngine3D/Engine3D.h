@@ -15,7 +15,8 @@ public:
 	void init(int argc, char**argv);
 	void unload();
 	void clean(Colors::RGB color);
-	void displayText(float x, float y, Colors::RGB color, std::string string);
+	void displayText(float x, float y, float z, Colors::RGB color, std::string string);
+
 
 	void setKeyboard(void(*keyboard)(unsigned char, int, int));
 	void setSpecialKeyboard(void(*keyboard)(int, int, int));
