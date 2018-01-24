@@ -1,7 +1,9 @@
+/* Autorzy: Ambrolewicz Artur, Bątkowska Karolina */
 #include "Engine3D.h"
 #include "Game.h"
 #include "Engine3DAdapter.h"
 #include "GlutHeader.h"
+#include "World.h"
 
 
 int main(int argc, char** argv)
@@ -19,10 +21,15 @@ int main(int argc, char** argv)
 	engine->setReshape(Engine3DAdapter::reshapeFunc);
 	engine->mouseButtonsFunc(Engine3DAdapter::mouseButtonsFunc);
 	engine->mouseMotionFunc(Engine3DAdapter::mouseMotionFunc);
+	engine->prepareTextures();
 	engine->setLightsAndMaterials();
+
 	engine->setTimer(25, Engine3DAdapter::timerFunc, 0);
 
 	engine->startMainLoop();
+
+
+
 
 	return 0;
 }

@@ -8,14 +8,17 @@ class Engine3D
 {
 	void createWindow();
 	void initRendering();
+	int windowWidth;
+    int windowHeight;
 
 public:
+    GLuint tex[2];
 	void loadModels();
 	void drawLoadedModels();
 	void init(int argc, char**argv);
 	void unload();
 	void clean(Colors::RGB color);
-	void displayText(float x, float y, float z, Colors::RGB color, std::string string);
+	void displayText(float x, float y, Colors::RGB color, void * font, std::string string);
 
 
 	void setKeyboard(void(*keyboard)(unsigned char, int, int));
@@ -30,6 +33,7 @@ public:
 
 	void startMainLoop();
 	void setLightsAndMaterials();
+	void prepareTextures();
 
 	Engine3D* glVertex3p(Point3D p);
 	Engine3D* glColor3c(Colors::RGB c);

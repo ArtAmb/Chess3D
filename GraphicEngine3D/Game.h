@@ -51,6 +51,9 @@ class Game
 
 	bool isIntroPlaying = true;
 	PLAYER_COLOR currPlayedIntro = WHITE;
+
+	int windowWidth;
+    int windowHeight;
 	void playIntro();
 	void stopIntro();
 	void playBlackPart();
@@ -67,6 +70,7 @@ public:
 	void mouseMove(int x, int y);
 	void releaseKey(unsigned char key, int x, int y);
 	void releaseSpecialKey(int key, int x, int y);
+	void checkStatus();
 
 	Game();
 	void loadDisplayLists();

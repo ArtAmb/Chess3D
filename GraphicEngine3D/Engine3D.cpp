@@ -1,5 +1,6 @@
 #include "Engine3D.h"
 #include "Point3D.h"
+#include "Targa.h"
 #include <vector>
 Engine3D* Engine3DLoader::engine = NULL;
 
@@ -97,16 +98,37 @@ void Engine3D::mouseMotionFunc(void(*moveMotion)(int, int)) {
 
 
 
-void Engine3D::displayText(float x, float y, float z, Colors::RGB color, std::string string) {
+void Engine3D::displayText(float x, float y, Colors::RGB color, void * font, std::string string) {
+
+
+    windowWidth =glutGet(GLUT_WINDOW_WIDTH);
+    windowHeight =glutGet(GLUT_WINDOW_HEIGHT);
+    glMatrixMode(GL_PROJECTION);
+    glPushMatrix();
+    glLoadIdentity();
+    gluOrtho2D(0.0, windowWidth, 0.0, windowHeight);
+    glMatrixMode(GL_MODELVIEW);
+    glPushMatrix();
+    glLoadIdentity();
 	glColor3f(color.getR(), color.getG(), color.getB());
 
-	glPushMatrix();
-	glRasterPos3f(x, y,z);
+    glDisable(GL_LIGHTING);
+
+	glRasterPos2f(x, y);
 	for (unsigned int i = 0; i < string.length(); i++) {
-		glutBitmapCharacter(GLUT_BITMAP_TIMES_ROMAN_24, string[i]);
+
+		glutBitmapCharacter(font, string[i]);
 	}
-	glPopMatrix();
+
+	glMatrixMode(GL_MODELVIEW);
+    glPopMatrix();
+    glMatrixMode(GL_PROJECTION);
+    glPopMatrix();
+
+	glEnable(GL_LIGHTING);
+
 }
+
 
 
 
@@ -133,5 +155,21 @@ void Engine3D::setLightsAndMaterials()
     glEnable( GL_NORMALIZE );
 
 
+}
+
+void Engine3D::prepareTextures()
+{
+
+	glGenTextures(3, tex);
+
+	glBindTexture(GL_TEXTURE_2D, tex[0]);
+	LoadTGAMipmap("1.tga");
+	glBindTexture(GL_TEXTURE_2D, tex[1]);
+	LoadTGAMipmap("2.tga");
+	glBindTexture(GL_TEXTURE_2D, tex[2]);
+	LoadTGAMipmap("3.tga");
+
 
 }
+
+

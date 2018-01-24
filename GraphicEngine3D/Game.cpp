@@ -154,6 +154,7 @@ Game::~Game()
 {
     delete camera;
     delete chessBoard;
+	delete world;
 }
 
 
@@ -240,6 +241,7 @@ void Game::keyboardFunc(unsigned char key, int x, int y)
             fieldSelector.move(0, -1);
             break;
         case 27:
+            world->killWorld();
             exit(0);
         }
     }
@@ -247,8 +249,8 @@ void Game::keyboardFunc(unsigned char key, int x, int y)
 
 void Game::mouseMove(int x, int y)
 {
-	if (isIntroPlaying)
-		return;
+    if (isIntroPlaying)
+        return;
     // this will only be true when the left button is down
     if (xOrigin >= 0)
     {
@@ -265,8 +267,8 @@ void Game::mouseMove(int x, int y)
 
 void Game::mouseButton(int button, int state, int x, int y)
 {
-	if (isIntroPlaying)
-		return;
+    if (isIntroPlaying)
+        return;
 
     // only start motion if the left button is pressed
     if (button == GLUT_LEFT_BUTTON)
@@ -331,6 +333,16 @@ void Game::releaseKey(unsigned char key, int x, int y)
         case 'e':
             veticalDelta = 0;
             break;
+      /*  case '1':
+            world->draw(0);
+            glutPostRedisplay();
+            break;
+        case '2':
+            world->draw(1);
+            break;
+        case '3':
+            world->draw(2);
+            break;*/
         }
     }
 }
@@ -349,10 +361,10 @@ void Game::releaseSpecialKey(int key, int x, int y)
         case GLUT_KEY_LEFT:
             deltaHorizontal = 0;
             break;
+
         }
     }
 }
-
 void Game::specialKeyboard(int key, int x, int y)
 {
     if (!isIntroPlaying)
@@ -371,6 +383,7 @@ void Game::specialKeyboard(int key, int x, int y)
         case GLUT_KEY_RIGHT:
             deltaHorizontal = 0.1f;
             break;
+
         }
     }
 }
@@ -443,7 +456,20 @@ void Game::displayFunc()
     glEnd();
     glPopMatrix();
 
-    world->draw();
+
+    world->draw(2);
+    drawChessPieces();
+
+    checkStatus();
+    glutSwapBuffers();
+
+
+
+}
+void Game::checkStatus()
+{
+    windowWidth =glutGet(GLUT_WINDOW_WIDTH);
+    windowHeight =glutGet(GLUT_WINDOW_HEIGHT);
 
 
     if(!isIntroPlaying)
@@ -453,21 +479,21 @@ void Game::displayFunc()
         case CONTINIUE:
         {
             if(chessBoard->getCurrPlayer()==WHITE )
-                engine->displayText(0, 9,-4, Colors::WHITE, "MOVE: WHITE ");
+                Engine3DLoader::getEngine()->displayText((float)(windowWidth*0.1f), (float)(windowHeight*0.8f), Colors::WHITE, GLUT_BITMAP_TIMES_ROMAN_24, "MOVE: WHITE ");
             else
-                engine->displayText(0, 9,-4, Colors::WHITE, "MOVE: BLACK ");
+                Engine3DLoader::getEngine()->displayText((float)(windowWidth*0.1f), (float)(windowHeight*0.8f), Colors::WHITE,  GLUT_BITMAP_TIMES_ROMAN_24,"MOVE: BLACK ");
             break;
         }
         case WINNER_BLACK:
-            Engine3DLoader::getEngine()->displayText(0,9,-4, Colors::WHITE, "CHECKMATE!!! WINNER: BLACK");
+            Engine3DLoader::getEngine()->displayText((float)(windowWidth*0.1f), (float)(windowHeight*0.8f), Colors::WHITE,  GLUT_BITMAP_TIMES_ROMAN_24, "CHECKMATE!!! WINNER: BLACK");
             break;
 
         case WINNER_WHITE:
-            Engine3DLoader::getEngine()->displayText(0, 9,-4, Colors::WHITE, "CHECKMATE!!! WINNER: WHITE");
+            Engine3DLoader::getEngine()->displayText((float)(windowWidth*0.1f), (float)(windowHeight*0.8f), Colors::WHITE, GLUT_BITMAP_TIMES_ROMAN_24, "CHECKMATE!!! WINNER: WHITE");
             break;
 
         case STALEMATE:
-            Engine3DLoader::getEngine()->displayText(0, 9,-4, Colors::WHITE, "STALEMATE!");
+            Engine3DLoader::getEngine()->displayText((float)(windowWidth*0.1f), (float)(windowHeight*0.8f), Colors::WHITE, GLUT_BITMAP_TIMES_ROMAN_24, "STALEMATE!");
             break;
 
         default:
@@ -476,13 +502,9 @@ void Game::displayFunc()
     }
     else
     {
-        Engine3DLoader::getEngine()->displayText(2, 9,-2, Colors::WHITE, "SZACHY 3D");
-        // Engine3DLoader::getEngine()->displayText(2, 9,-1.5f, Colors::WHITE, "(Enter)");
+        Engine3DLoader::getEngine()->displayText((float)(windowWidth*0.4f), (float)(windowHeight*0.6f), Colors::WHITE, GLUT_BITMAP_TIMES_ROMAN_24, "CHESS 3D");
+        Engine3DLoader::getEngine()->displayText((float)(windowWidth*0.4f), (float)(windowHeight*0.56f), Colors::WHITE, GLUT_BITMAP_9_BY_15, "(Press Enter)");
     }
-
-
-    drawChessPieces();
-    glutSwapBuffers();
 }
 void Game::reshapeFunc(int width, int height)
 {

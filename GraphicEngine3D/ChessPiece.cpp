@@ -160,10 +160,12 @@ void ChessPiece::tryToFillPossibleMoves()
 	fillPossibleMoves();
 	for (int i = 0; i < possibleMoves.size(); ) {
 		ChessBoardField* field = chessBoard->getField(possibleMoves[i]);
+		ChessBoardField* myField = chessBoard->getField(column, row);
 		ChessPiece* tmpPiece = field->getPiece();
 
 		startProcessing();
 		setAlive(false);
+		myField->setPiece(NULL);
 		if (tmpPiece != NULL)
 			tmpPiece->setAlive(false);
 		field->setPiece(this);
@@ -184,6 +186,8 @@ void ChessPiece::stopProcesing(ChessBoardField* field, ChessPiece* tmpPiece)
 	if (tmpPiece != NULL)
 		tmpPiece->setAlive(true);
 	setAlive(true);
+	ChessBoardField* myField = chessBoard->getField(column, row);
+	myField->setPiece(this);
 	stopProcessing();
 }
 

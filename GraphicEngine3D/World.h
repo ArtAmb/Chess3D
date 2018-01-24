@@ -9,18 +9,21 @@
 
 class World {
 
-	//Point3D startPoint;
+	GLUquadric * state=gluNewQuadric();;
+	int numberOfTexture;
 
 
 
 public:
 Colors::RGB color;
 	World();
-	//World(Point3D);
+
 	~World();
 
 
-	void draw();
+	void draw(int numberOfTexture);
+	void killWorld();
+
 };
 
 
